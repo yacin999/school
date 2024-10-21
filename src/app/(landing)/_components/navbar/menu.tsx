@@ -39,7 +39,26 @@ const Menu = ({orientation}: MenuProps) => {
                 </Card>
             )
         case "mobile":
-            return <div></div>
+            return (
+                <div className="flex flex-col mt-10">
+                  {GROUPLE_CONSTANTS.landingPageMenu.map((menuItem) => (
+                    <Link
+                      href={menuItem.path}
+                      {...(menuItem.section && {
+                        onClick: () => onSetSection(menuItem.path),
+                      })}
+                      className={cn(
+                        "rounded-xl flex gap-2 py-2 px-4 items-center",
+                        section == menuItem.path ? "bg-themeGray border-[#27272A]" : "",
+                      )}
+                      key={menuItem.id}
+                    >
+                      {menuItem.icon}
+                      {menuItem.label}
+                    </Link>
+                  ))}
+                </div>
+              ) 
         default:
             return <></>
     }
