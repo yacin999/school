@@ -1,6 +1,10 @@
 
 export default function Home() {
   return (
-   <h1 className="flex items-center justify-center h-screen">welcome to our app from next js</h1>
+   <main className="md:px-10 flex flex-col gap-36">
+    <div>
+      <CallToAction/>
+    </div>
+   </main>
   );
 }
