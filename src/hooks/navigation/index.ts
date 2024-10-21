@@ -6,8 +6,8 @@ export const useNavigation = () => {
     const [section, seSection ] = useState<string>()
     const onSetSection = (page : string) => seSection(page)
 
-    return [
+    return {
         section,
         onSetSection
-    ]
+    }
 }

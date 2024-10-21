@@ -45,7 +45,7 @@ import {
       section: true,
     },
     {
-      id: 1,
+      id: 2,
       label: "Explore",
       icon: <Explore />,
       path: "/explore",
