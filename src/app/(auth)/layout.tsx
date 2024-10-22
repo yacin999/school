@@ -1,4 +1,5 @@
 import { onAuthenticatedUser } from '@/actions/auth'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
 
 const AuthLayout = async ({children}: Props) => {
     const user = await onAuthenticatedUser()
+
+    if (user.status === 200) redirect("/callback/sign-in")
   return (
     <div>AuthLayout</div>
   )

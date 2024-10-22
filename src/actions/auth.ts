@@ -11,17 +11,33 @@ export const onAuthenticatedUser = async () => {
 
         if (!clerk) return {status : 404}
 
-        // const user = client.user.findUnique({
-        //     where : {
-        //         clerkId : clerk.id
-        //     },
-        //     select : {
-        //         id: true,
-        //         firstname : true,
-        //         lastname : true
-        //     }
-        // })
+        const user = await client.user.findUnique({
+            where : {
+                clerkId : clerk.id
+            },
+            select : {
+                id: true,
+                firstname : true,
+                lastname : true
+            }
+        })
+
+        if (user) {
+            return {
+                status : 200,
+                id : user.id,
+                image : clerk.imageUrl,
+                username : `${user.firstname} ${user.lastname}`
+            }
+        }
+
+        return {
+            status : 404
+        }
     } catch (error) {
-        
+        console.log("error from onAuthenticatedUser", error)
+        return {
+            status : 404
+        }
     }
 }
