@@ -69,4 +69,11 @@ export const useAuthSignIn = () => {
     const onAuthenticateUser = handleSubmit(async (values)=>{
         InitiateLoginFlow({email : values.email, password : values.password})
     })
+
+    return {
+        onAuthenticateUser,
+        isPending,
+        register,
+        errors
+    }
 }
