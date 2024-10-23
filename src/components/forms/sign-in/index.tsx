@@ -1,21 +1,33 @@
 "use client"
 
-import { Form } from "@/components/ui/form";
+import { FormGenerator } from "@/components/global/form-generator";
+import { Loader } from "@/components/global/loader";
+import { Button } from "@/components/ui/button";
 import { useAuthSignIn } from "@/hooks/authentication";
-import { useForm } from "react-hook-form"
 
 type Props = {}
 
 const SignInForm = (props: Props) => {
-    const {isPending, onAuthenticatedUser, register, errors } = useAuthSignIn()
+    const {isPending, onAuthenticateUser, register, errors } = useAuthSignIn()
 
 
   return (
-    <Form>
-      <form onSubmit={()=> onAuthenticatedUser()}>
-
-      </form>
-    </Form>
+    <form
+      className="flex flex-col gap-3 mt-10"
+      onSubmit={onAuthenticateUser}
+    >
+      {GOOGLE_CONSTANTS.signInForm.map((field)=>(
+        <FormGenerator
+          {...field}
+          key={field.id}
+          register={register}
+          errors={errors}
+        />
+      ))}
+      <Button type="submit" className="rounded-2xl">
+        <Loader loading={isPending}>Sign In with Email</Loader>
+      </Button>
+    </form>
   )
 }
 

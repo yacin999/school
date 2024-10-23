@@ -9,71 +9,60 @@ import { useMutation } from "@tanstack/react-query"
 
 
 export const useAuthSignIn = () => {
-    const {isLoaded, setActive, signIn } = useSignIn()
-
+    const { isLoaded, setActive, signIn } = useSignIn()
     const {
-        register,
-        formState : {errors},
-        reset,
-        handleSubmit
+      register,
+      formState: { errors },
+      reset,
+      handleSubmit,
     } = useForm<z.infer<typeof SignInSchema>>({
-        resolver : zodResolver(SignInSchema),
-        mode : 'onBlur',
+      resolver: zodResolver(SignInSchema),
+      mode: "onBlur",
     })
-
+  
     const router = useRouter()
-
-
-    const onClerkAuth = async (email : string, password : string) => {
-        if (!isLoaded) {
-            return toast("Error", {
-                description : "Oops! something went wrong"
-            })
+    const onClerkAuth = async (email: string, password: string) => {
+      if (!isLoaded)
+        return toast("Error", {
+          description: "Oops! something went wrong",
+        })
+      try {
+        const authenticated = await signIn.create({
+          identifier: email,
+          password: password,
+        })
+  
+        if (authenticated.status === "complete") {
+          reset()
+          await setActive({ session: authenticated.createdSessionId })
+          toast("Success", {
+            description: "Welcome back!",
+          })
+          router.push("/callback/sign-in")
         }
-
-        try {
-            const authenticated = await signIn.create({
-                identifier : email,
-                password : password
-            })
-
-            if (authenticated.status === "complete") {
-                reset()
-                await setActive({session : authenticated.createdSessionId})
-                toast("Success", {
-                    description : "welcome back!"
-                })
-                router.push("/callback/sign-in")
-            }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error : any) {
-            if (error.errors[0].code === "form_password_incorrect") {
-                toast('Error', {
-                    description : "email/password is incorrect, please try again"
-                })
-            }
-        }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        if (error.errors[0].code === "form_password_incorrect")
+          toast("Error", {
+            description: "email/password is incorrect try again",
+          })
+      }
     }
-
-    const {mutate : InitiateLoginFlow, isPending } = useMutation({
-        mutationFn : ({
-            email,
-            password
-        } : {
-            email : string,
-            password : string
-        }) => onClerkAuth(email, password)
+  
+    const { mutate: InitiateLoginFlow, isPending } = useMutation({
+      mutationFn: ({ email, password }: { email: string; password: string }) =>
+        onClerkAuth(email, password),
     })
-
-
-    const onAuthenticateUser = handleSubmit(async (values)=>{
-        InitiateLoginFlow({email : values.email, password : values.password})
+  
+    const onAuthenticateUser = handleSubmit(async (values) => {
+      InitiateLoginFlow({ email: values.email, password: values.password })
     })
-
+  
     return {
-        onAuthenticateUser,
-        isPending,
-        register,
-        errors
+      onAuthenticateUser,
+      isPending,
+      register,
+      errors,
     }
-}
+  }
+  

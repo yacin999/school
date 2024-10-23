@@ -10,6 +10,7 @@ type FormGeneratorProps = {
     options?: { value: string; label: string; id: string }[]
     label?: string
     placeholder: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     register: UseFormRegister<any>
     name: string
     errors: FieldErrors<FieldValues>
