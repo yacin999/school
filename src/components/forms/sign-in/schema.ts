@@ -9,3 +9,4 @@ export const SignInSchema = z.object({
     .min(8, {message : "Your password must be at least 8 characters long"})
     .refine((value)=> /^[a-zA-z0-9_.-]*$/.test(value ?? ""), "password should contain only alphabets and numbers")
 })
+

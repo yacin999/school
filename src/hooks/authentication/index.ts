@@ -1,11 +1,13 @@
-import { useSignIn } from "@clerk/nextjs"
+import { useSignIn, useSignUp } from "@clerk/nextjs"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import  { zodResolver }  from "@hookform/resolvers/zod"
-import { SignInSchema } from "./schema"
+import { SignInSchema } from "../../components/forms/sign-in/schema"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
+import { useState } from "react"
+import { SignUpSchema } from "@/components/forms/sign-up/schama"
 
 
 export const useAuthSignIn = () => {
@@ -64,5 +66,28 @@ export const useAuthSignIn = () => {
       register,
       errors,
     }
-  }
+}
+
+
+export const useAuthSignUp = () => {
+  const {setActive, isLoaded, signUp} = useSignUp()
+  const [craeting, setCraeting] = useState<boolean>(false)
+  const [verifying, setVerifying] = useState<boolean>(false)
+  const [code, setCode] = useState<string>("")
+
+  const {
+    register,
+    formState : {errors},
+    reset,
+    handleSubmit,
+    getValues
+  } = useForm<z.infer<typeof SignUpSchema>>({
+    resolver : zodResolver(SignUpSchema),
+    mode : "onBlur"
+  })
+
+  const router = useRouter()
+
+  return {}
+}
   
