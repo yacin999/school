@@ -8,6 +8,7 @@ import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { SignUpSchema } from "@/components/forms/sign-up/schama"
+import { onSignUpUser } from "@/actions/auth"
 
 
 export const useAuthSignIn = () => {
@@ -87,6 +88,80 @@ export const useAuthSignUp = () => {
   })
 
   const router = useRouter()
+
+  // verify email and password and send email verification
+  const onGenerateCode = async (email : string, password : string) => {
+    if (!isLoaded) {
+      return toast("Error", {
+        description : "Oops! something went wrong"
+      })
+    }
+
+    try {
+      if (email && password) {
+        await signUp.create({
+          emailAddress : getValues("email"),
+          password: getValues("password")
+        })
+
+        await signUp.prepareEmailAddressVerification({
+          strategy : "email_code"
+        })
+
+        setVerifying(true)
+      }else {
+        return toast("Error", {
+          description : "No fields must be empty"
+        })
+      }
+    } catch (error) {
+      console.error(JSON.stringify(error, null, 2))
+    }
+  }
+
+  const onInitiateUserRegistration = handleSubmit(async (values : z.infer<typeof SignUpSchema>)=>{
+    if (!isLoaded) {
+      return toast("Error", {
+        description : "Oops! something went wrong"
+      })
+    }
+
+    try {
+      setCraeting(true)
+    } catch (error) {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code
+      })
+
+      if (completeSignUp.status !== "complete") {
+        return toast("Error", {
+          description : "Oops! something went wrong, status is incomplete"
+        })
+      }
+
+      if (completeSignUp.status === "complete") {
+        if (!signUp.createdUserId) return
+        const user = await onSignUpUser({
+          firstname : values.firstname,
+          lastname : values.lastname,
+          clerkId : signUp.createdUserId,
+          image : ""
+        })
+
+        reset()
+
+        if (user.status === 200) {
+          toast("Success", {
+            description : user.message
+          })
+
+          await setActive({
+            session : signUp.createdSessionId
+          })
+        }
+      }
+    }
+  })
 
   return {}
 }
