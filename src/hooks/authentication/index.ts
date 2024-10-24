@@ -72,7 +72,7 @@ export const useAuthSignIn = () => {
 
 export const useAuthSignUp = () => {
   const {setActive, isLoaded, signUp} = useSignUp()
-  const [craeting, setCraeting] = useState<boolean>(false)
+  const [creating, setCreating] = useState<boolean>(false)
   const [verifying, setVerifying] = useState<boolean>(false)
   const [code, setCode] = useState<string>("")
 
@@ -127,8 +127,7 @@ export const useAuthSignUp = () => {
     }
 
     try {
-      setCraeting(true)
-    } catch (error) {
+      setCreating(true)
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code
       })
@@ -158,11 +157,38 @@ export const useAuthSignUp = () => {
           await setActive({
             session : signUp.createdSessionId
           })
+          
+          router.push("/group/create")
         }
+
+        if (user.status !== 200) {
+          toast("Error", {
+            description : user.message + "action failed"
+          })
+
+          router.refresh()
+        }
+
+        setCreating(false)
+        setVerifying(false)
+      }else {
+        console.log(JSON.stringify(completeSignUp, null, 2))
       }
+    } catch (error) {
+      console.log(JSON.stringify(error, null, 2))
     }
   })
 
-  return {}
+  return {
+    register,
+    errors,
+    onGenerateCode,
+    onInitiateUserRegistration,
+    verifying,
+    creating,
+    code,
+    setCode,
+    getValues
+  }
 }
   

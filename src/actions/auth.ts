@@ -66,6 +66,7 @@ export const onSignUpUser = async (data : {
             status : 400,
             message : "User could not be created! please try again"
         }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             status : 400,
