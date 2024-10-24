@@ -59,8 +59,8 @@ export const useAuthSignIn = () => {
     })
   
     return {
-      onAuthenticateUser,
-      isPending,
+      onAuthenticateUser : onAuthenticateUser,
+      isPending : isPending,
       register,
       errors,
     }
