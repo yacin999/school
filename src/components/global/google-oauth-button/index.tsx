@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { Loader } from '../loader'
 import { Google } from '@/icons'
+import { useGoogleAuth } from '@/hooks/authentication'
 
 type Props = {
     method : "signin" | "signup"
