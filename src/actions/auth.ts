@@ -74,3 +74,58 @@ export const onSignUpUser = async (data : {
         }
     }
 }
+
+export const onSignInUser = async (userId : string) => {
+    try {
+        const loggedInUser = await client.user.findUnique({
+            where : {
+                clerkId : userId
+            },
+            select : {
+                id : true,
+                group : {
+                    select : {
+                        id : true,
+                        channel : {
+                            select : {
+                                id : true
+                            },
+                            take : 1,
+                            orderBy : {
+                                createdAt : "asc"
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        if (loggedInUser) {
+            if (loggedInUser.group.length > 0) {
+                return {
+                    status : 207,
+                    id : loggedInUser.id,
+                    groupId : loggedInUser.group[0].id,
+                    channelId : loggedInUser.group[0].channel[0].id
+                }
+            }
+
+            return {
+                status : 200,
+                message : "user successfully logged in",
+                id : loggedInUser.id
+            }
+        }
+
+        return {
+            status :  400,
+            message : "User could not be logged in! please try again"
+        }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return {
+            status : 400,
+            message : "Oops! something went wrong, try again"
+        }
+    }
+}
