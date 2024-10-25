@@ -1,12 +1,15 @@
+import { useState } from "react"
 import { useSignIn, useSignUp } from "@clerk/nextjs"
+import {OAuthStrategy} from "@clerk/types"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import  { zodResolver }  from "@hookform/resolvers/zod"
-import { SignInSchema } from "../../components/forms/sign-in/schema"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
-import { useState } from "react"
+
+
+import { SignInSchema } from "../../components/forms/sign-in/schema"
 import { SignUpSchema } from "@/components/forms/sign-up/schama"
 import { onSignUpUser } from "@/actions/auth"
 
@@ -192,3 +195,41 @@ export const useAuthSignUp = () => {
   }
 }
   
+
+export const useGoogleAuth = () => {
+  const {signIn, isLoaded : LoadedSignIn} = useSignIn()
+  const {signUp, isLoaded : LoadedSignUp} = useSignUp()
+
+  const signInWith = (strategy : OAuthStrategy) => {
+    if (!LoadedSignIn) return
+
+    try {
+      return signIn.authenticateWithRedirect({
+        strategy,
+        redirectUrl : "/callback",
+        redirectUrlComplete : "/callback/sign-in"
+      })
+    } catch (error) { 
+      console.error(error)
+    }
+  }
+
+  const signUpWith = (strategy : OAuthStrategy) => {
+    if (!LoadedSignUp) return
+
+    try {
+      return signUp.authenticateWithRedirect({
+        strategy,
+        redirectUrl : "/callback",
+        redirectUrlComplete : "/callback/complete"
+      })
+    } catch (error) { 
+      console.error(error)
+    }
+  }
+
+  return {
+    signInWith,
+    signUpWith
+  }
+}

@@ -1,17 +1,20 @@
+"use client"
+
 import { FormGenerator } from '@/components/global/form-generator'
+import { Loader } from '@/components/global/loader'
+import { Button } from '@/components/ui/button'
 import { GROUPLE_CONSTANTS } from '@/constants'
 import { useAuthSignUp } from '@/hooks/authentication'
 import dynamic from 'next/dynamic'
 import React from 'react'
 
-type Props = {}
 
 const OtpInput = dynamic(() => import("@/components/global/otp-input").then(
     (component)=> component.default),
     {ssr : false}
 )
 
-const SignUpForm = (props: Props) => {
+const SignUpForm = () => {
 
     const {
         register,
@@ -42,6 +45,24 @@ const SignUpForm = (props: Props) => {
                     errors={errors}
                 />
             ))
+        )}
+        {verifying ? (
+            <Button type='submit' className='rounded-2xl'>
+                <Loader loading={creating}>Sign up with email</Loader>
+            </Button>
+        ):(
+            <Button
+                type='button'
+                className='rounded-2xl'
+                onClick={()=> 
+                    onGenerateCode(
+                        getValues("email"),
+                        getValues("password")
+                    )
+                }
+            >
+                <Loader loading={false}>Generate Code</Loader>
+            </Button>
         )}
     </form>
   )
