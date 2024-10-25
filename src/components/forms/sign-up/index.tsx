@@ -36,11 +36,11 @@ const SignUpForm = (props: Props) => {
         ): (
             GROUPLE_CONSTANTS.signUpForm.map((field)=> (
                 <FormGenerator
-                {...field}
-                key={field.id}
-                register={register}
-                errors={errors}
-            />
+                    {...field}
+                    key={field.id}
+                    register={register}
+                    errors={errors}
+                />
             ))
         )}
     </form>
