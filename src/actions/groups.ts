@@ -2,7 +2,7 @@
 
 import { client } from "@/lib/prisma"
 
-export const onAffilateInfo = async (id : string) => {
+export const onGetAffiliateInfo = async (id : string) => {
     try {
         const affiliateInfo = await client.affiliate.findUnique({
             where : {
