@@ -3,11 +3,10 @@ import { useState } from "react"
 
 export const useNavigation = () => {
     const pathName = usePathname()
-    const [section, seSection ] = useState<string>()
-    const onSetSection = (page : string) => seSection(page)
-
+    const [section, setSection] = useState<string>(pathName)
+    const onSetSection = (page: string) => setSection(page)
     return {
-        section,
-        onSetSection
+      section,
+      onSetSection,
     }
-}
+  }
