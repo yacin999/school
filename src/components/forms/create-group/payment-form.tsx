@@ -1,3 +1,4 @@
+import { usePayments } from '@/hooks/payment'
 import React from 'react'
 
 type Props = {
@@ -9,6 +10,15 @@ type Props = {
 // WIP:connect the usePayments hook 
 
 const PaymentForm = ({userId, affiliate, stripeId}: Props) => {
+
+  const {
+    onCreateGroup,
+    isPending,
+    register,
+    errors,
+    isCategory,
+    creatingIntent
+  } = usePayments(userId, affiliate)
   return (
     <div>PaymentForm</div>
   )
