@@ -1,5 +1,6 @@
 import { onAuthenticatedUser } from "@/actions/auth"
 import { onGetAffiliateInfo } from "@/actions/groups"
+import CreateGroup from "@/components/forms/create-group"
 // import CreateGroup from "@/components/forms/create-group"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User } from "lucide-react"
@@ -19,7 +20,7 @@ const GroupCreatePage = async ({
   return (
     <>
       <div className="px-7 flex flex-col">
-        <h5 className="font-bold text-base text-themeTextWhite">
+        <h5 className="font-bold text-base text-themeTextWhite mb-3">
           Payment Method
         </h5>
         <p className="text-themeTextGray leading-tight">
@@ -43,11 +44,11 @@ const GroupCreatePage = async ({
           </div>
         )}
       </div>
-      {/* <CreateGroup
+      <CreateGroup
         userId={user.id}
         affiliate={affiliate.status === 200 ? true : false}
         stripeId={affiliate.user?.Group?.User.stripeId || ""}
-      /> */}
+      />
     </>
   )
 }

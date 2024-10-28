@@ -1,3 +1,6 @@
+"use client"
+
+
 import { onCreateNewGroup } from "@/actions/groups";
 import { onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
@@ -105,10 +108,10 @@ export const usePayments = (userId : string, affiliate : boolean, stripeId? : st
         }
     })
 
-    const OnCreateGroup = handleSubmit(async (values)=> createGroup(values))
+    const onCreateGroup = handleSubmit(async (values) => createGroup(values))
     
     return {
-        OnCreateGroup,
+        onCreateGroup,
         isPending,
         register,
         errors,
