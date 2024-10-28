@@ -1,4 +1,4 @@
-import { onGetSripeClientSecret } from "@/actions/payments";
+import { onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -80,7 +80,7 @@ export const usePayments = (userId : string, affiliate : boolean, stripeId? : st
 
             if (paymentIntent?.status === "succeeded") {
                 if (affiliate) {
-                    await onTransferCommission(stripeId)
+                    await onTransferCommission(stripeId!)
                 }
 
                 const created = await onCreateNewGroup(userId, data)
