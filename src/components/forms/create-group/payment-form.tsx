@@ -1,3 +1,4 @@
+import { Loader } from '@/components/global/loader'
 import { usePayments } from '@/hooks/payment'
 import React from 'react'
 
@@ -20,7 +21,11 @@ const PaymentForm = ({userId, affiliate, stripeId}: Props) => {
     creatingIntent
   } = usePayments(userId, affiliate)
   return (
-    <div>PaymentForm</div>
+    // <Loader loading={creatingIntent}>
+      <form className='pt-5' onSubmit={onCreateGroup}>
+        dfkfd
+      </form>
+    // </Loader>
   )
 }
 
