@@ -112,6 +112,7 @@ export const onCreateNewGroup = async (
                 message : "Group created successfully"
             }
         }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             status : 400,

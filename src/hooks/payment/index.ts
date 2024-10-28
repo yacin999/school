@@ -1,3 +1,4 @@
+import { onCreateNewGroup } from "@/actions/groups";
 import { onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -5,7 +6,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe, StripeCardElement } from "@stripe/stripe-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -97,23 +98,17 @@ export const usePayments = (userId : string, affiliate : boolean, stripeId? : st
                 if (created && created.status !== 200) {
                     reset()
                     return toast("Error", {
-                        
+                        description : created.message
                     })
                 }
             }
         }
     })
 
-    // const onCreateGroup = handleSubmit(async (values : z.infer<typeof CreateGroupSchema>)=> {
-    //     await stripe?.confirmPayment({
-    //         elements,
-    //         confirmParams : {
-    //             return_url : "/group"
-    //         }
-    //     })
-    // })
+    const OnCreateGroup = handleSubmit(async (values)=> createGroup(values))
+    
     return {
-        onCreateGroup,
+        OnCreateGroup,
         isPending,
         register,
         errors,
