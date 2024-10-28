@@ -64,7 +64,6 @@ export const usePayments = (userId : string, affiliate : boolean, stripeId? : st
             if (!stripe || !elements || !Intent) {
                 return null
             }
-
             const { error, paymentIntent } = await stripe.confirmCardPayment(
                 Intent.secret!,
                 {

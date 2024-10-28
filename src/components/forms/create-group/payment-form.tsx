@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { usePayments } from '@/hooks/payment'
 import { ErrorMessage } from '@hookform/error-message'
 import { CardElement } from '@stripe/react-stripe-js'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React from 'react'
 
@@ -15,7 +16,7 @@ type Props = {
   stripeId? : string
 }
 
-// WIP:connect the usePayments hook 
+const GroupList = dynamic(()=> import("@/components/global/group-list-slider").then((component) => component.GroupListSlider))
 
 const PaymentForm = ({userId, affiliate, stripeId}: Props) => {
 
