@@ -4,6 +4,7 @@ import { CreateGroupSchema } from "@/components/forms/create-group/schema"
 import { client } from "@/lib/prisma"
 import { z } from "zod"
 import { v4 as uuidv4 } from 'uuid';
+import { onAuthenticatedUser } from "./auth";
 
 
 
@@ -118,5 +119,88 @@ export const onCreateNewGroup = async (
             status : 400,
             message : "Oops! group creation failed, try again later"
         }
+    }
+}
+
+
+export const onGetGroupInfo = async (groupId : string) => {
+    try {
+        const user = await onAuthenticatedUser()
+        const group = await client.group.findUnique({
+            where : {
+                id : groupId
+            }
+        })
+
+
+        if (group) {
+            return {
+                status : 200,
+                group,
+                groupOwner : user.id === group.userId ? true : false
+            }
+        }
+
+        return {status : 404}
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return {status : 400}
+    }
+}
+
+export const onGetUserGroups = async (userId : string) => {
+    try {
+        const groups = await client.user.findUnique({
+            where : {
+                id : userId
+            },
+            select : {
+                group : {
+                    select : {
+                        id : true,
+                        name : true,
+                        icon : true,
+                        channel : {
+                            where : {
+                                name : "general"
+                            },
+                            select : {
+                                id : true
+                            }
+                        }
+                    }
+                },
+                membership : {
+                    select : {
+                        Group : {
+                            select : {
+                                id : true,
+                                icon : true,
+                                name : true,
+                                channel : {
+                                    where : {
+                                        name : "general"
+                                    },
+                                    select : {
+                                        id : true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        if (groups && (groups.group.length > 0 || groups.membership.length > 0)) return {
+            status :  200,
+            groups : groups.group,
+            members : groups.membership
+        }
+
+        return {status : 404}
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return {status : 400}
     }
 }

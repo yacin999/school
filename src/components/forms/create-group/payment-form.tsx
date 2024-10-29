@@ -18,7 +18,7 @@ type Props = {
 
 const GroupList = dynamic(()=> import("@/components/global/group-list-slider").then((component) => component.GroupListSlider))
 
-const PaymentForm = ({userId, affiliate, stripeId}: Props) => {
+const PaymentForm = ({userId, affiliate}: Props) => {
 
   const {
     onCreateGroup,
