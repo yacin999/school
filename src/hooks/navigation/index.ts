@@ -1,3 +1,4 @@
+import { onCreateNewChannel } from "@/actions/channels"
 import { onGetGroupChannels } from "@/actions/groups"
 import { IGroupInfo, IGroups } from "@/components/global/sidebar"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -56,4 +57,12 @@ export const useSidebar = (groupid : string) => {
       description : "Channel created"
     })
   }
+
+  if (isError) {
+    toast("Error", {
+      description : "Oops! something went wrong"
+    })
+  }
+
+  return {groupInfo, groups, mutate, variables, isPending, channels}
 }

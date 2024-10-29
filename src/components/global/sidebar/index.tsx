@@ -1,3 +1,4 @@
+import { useSidebar } from '@/hooks/navigation'
 import React from 'react'
 
 type Props = {
@@ -48,6 +49,8 @@ groups:
 
 const Sidebar = ({groupid, userid, mobile}: Props) => {
     const {groupInfo, groups, mutate, variables, isPending, channels} = useSidebar(groupid)
+
+    useGroupChatOnline(userid)
   return (
     <div>Sidebar</div>
   )

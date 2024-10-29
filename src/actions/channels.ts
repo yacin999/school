@@ -93,6 +93,7 @@ export const onCreateNewChannel = async (
             status : 400,
             message : "channel could not be created"
         }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
             status : 400,
