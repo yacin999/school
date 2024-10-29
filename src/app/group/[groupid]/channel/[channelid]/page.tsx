@@ -12,6 +12,8 @@ type Props = {
     }
 }
 
+// WIP: complete school channel page
+
 const GroupChannelPage = async ({params}: Props) => {
     const client = new QueryClient()
     const user = await currentUser()

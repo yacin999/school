@@ -225,7 +225,7 @@ export const onGetGroupChannels = async (groupId : string) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {
-            status : 400
+            status : 400,
             message : "Oops! something went wrong"
         }
     }
@@ -258,6 +258,7 @@ export const onGetGroupSubscriptions = async (groupId : string) => {
         return {
             status : 404
         }
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
    } catch (error) {
         return {
             status : 400
@@ -290,6 +291,7 @@ export const onGetAllGroupMembers = async (groupId : string) => {
          return {
              status : 404
          }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
          return {
              status : 400

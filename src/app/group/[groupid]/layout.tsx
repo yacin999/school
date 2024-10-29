@@ -47,7 +47,10 @@ const GroupLayout = async ({children, params}: Props) => {
   return (
     <HydrationBoundary state={dehydrate(query)}>
         <div className='flex h-screen md:pt-5'>
-            
+            <Sidebar 
+                userid={user.id}
+                groupid={params.groupid}
+            />
         </div>
     </HydrationBoundary>
   )
