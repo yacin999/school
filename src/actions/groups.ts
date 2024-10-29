@@ -204,3 +204,95 @@ export const onGetUserGroups = async (userId : string) => {
         return {status : 400}
     }
 }
+
+export const onGetGroupChannels = async (groupId : string) => {
+    try {
+        const channels = await client.channel.findMany({
+            where : {
+                groupId : groupId
+            },
+            orderBy : {
+                createdAt : "asc"
+            }
+        })
+
+        if (channels) return {
+            status : 200,
+            channels
+        }
+
+        return {status : 404}
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return {
+            status : 400
+            message : "Oops! something went wrong"
+        }
+    }
+}
+
+
+export const onGetGroupSubscriptions = async (groupId : string) => {
+   try {
+        const subscriptions = await client.subscription.findMany({
+            where : {
+                groupId : groupId
+            },
+            orderBy : {
+                createdAt : "desc"
+            }
+        })
+
+        const count = await client.members.count({
+            where : {
+                groupId : groupId
+            },
+        })
+
+        if (subscriptions) return {
+            status : 200,
+            subscriptions,
+            count
+        }
+
+        return {
+            status : 404
+        }
+   } catch (error) {
+        return {
+            status : 400
+        }
+   }
+}
+
+
+export const onGetAllGroupMembers = async (groupId : string) => {
+    try {
+        const user = await onAuthenticatedUser()
+         const members = await client.members.findMany({
+             where : {
+                groupId : groupId,
+                NOT : {
+                    userId : user.id
+                }
+             },
+             include : {
+                User : true
+             }
+         })
+ 
+        
+         if (members && members.length > 0) return {
+             status : 200,
+             members
+         }
+ 
+         return {
+             status : 404
+         }
+    } catch (error) {
+         return {
+             status : 400
+         }
+    }
+ }

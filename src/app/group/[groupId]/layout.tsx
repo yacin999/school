@@ -1,5 +1,5 @@
 import { onAuthenticatedUser } from '@/actions/auth'
-import { onGetGroupInfo, onGetUserGroups } from '@/actions/groups'
+import { onGetAllGroupMembers, onGetGroupChannels, onGetGroupInfo, onGetGroupSubscriptions, onGetUserGroups } from '@/actions/groups'
 import { QueryClient } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -31,11 +31,19 @@ const GroupLayout = async ({children, params}: Props) => {
     }) 
     // channels
     await query.prefetchQuery({
-        queryKey : ["user-groups"],
-        queryFn : () => onGetUserGroups(user.id as string)
+        queryKey : ["group-channels"],
+        queryFn : () => onGetGroupChannels(params.groupId)
     }) 
     // group subscriptions
+    await query.prefetchQuery({
+        queryKey : ["group-subscriptions"],
+        queryFn : ()=> onGetGroupSubscriptions(params.groupId)
+    })
     // member-chats
+    await query.prefetchQuery({
+        queryKey : ["member-chats"],
+        queryFn : ()=> onGetAllGroupMembers(params.groupId)
+    })
   return (
     <div>GroupLayout</div>
   )
