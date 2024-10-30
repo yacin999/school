@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux"
 export const useGroupChatOnline = (userid : string) => {
     const dispatch : AppDispatch = useDispatch()
 
-    useEffect(()=>{
+    useEffect(()=>{ 
         const channel = supabaseClient.channel("tracking")
 
         channel
