@@ -1,5 +1,12 @@
+"use client"
+
+import { useGroupChatOnline } from '@/hooks/groups'
 import { useSidebar } from '@/hooks/navigation'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
 import React from 'react'
+import { DropDown } from '../drop-down'
+import { CarotSort } from '@/icons'
 
 type Props = {
     groupid : string,
@@ -52,7 +59,30 @@ const Sidebar = ({groupid, userid, mobile}: Props) => {
 
     useGroupChatOnline(userid)
   return (
-    <div>Sidebar</div>
+    <div className={cn('h-screen flex-col gap-y-10 sm:px-5', 
+      !mobile ? "hidden bg-black md:w-[300px] fixed md:flex" : "w-full flex")
+    }>
+      {groups.groups && groups.groups.length > 0 && (
+        <DropDown
+          title={'Groups'}
+          trigger={
+            <div className='w-full flex items-center justify-between text-themeTextGray md:border-[1px] borderthem p-3 rounded-xl'>
+              <Image
+                src={`https://ucnrecdn.com/${groupInfo.group?.icon as string}/`}
+                alt='icon'
+                className='w-10 rounded-lg'
+              />
+              <p className='text-sm'>{groupInfo.group?.name}</p>
+              <span className=''>
+                <CarotSort/>
+              </span>
+            </div>
+          }
+          >
+            {}
+          </DropDown>
+      )}
+    </div>
   )
 }
 
