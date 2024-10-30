@@ -29,7 +29,7 @@ export const useSidebar = (groupid : string) => {
   const {data : channels } = useQuery({
     queryKey : ["group-channels"],
     queryFn : () => onGetGroupChannels(groupid)
-  }) as {data : IGroupInfo}
+  })
 
   const client = useQueryClient()
 

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useGroupChatOnline } from '@/hooks/groups'
@@ -7,6 +8,9 @@ import Image from 'next/image'
 import React from 'react'
 import { DropDown } from '../drop-down'
 import { CarotSort } from '@/icons'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Group } from 'lucide-react'
 
 type Props = {
     groupid : string,
@@ -56,7 +60,7 @@ groups:
 
 const Sidebar = ({groupid, userid, mobile}: Props) => {
     const {groupInfo, groups, mutate, variables, isPending, channels} = useSidebar(groupid)
-
+    console.log("test channels", channels)
     useGroupChatOnline(userid)
   return (
     <div className={cn('h-screen flex-col gap-y-10 sm:px-5', 
@@ -67,8 +71,8 @@ const Sidebar = ({groupid, userid, mobile}: Props) => {
           title={'Groups'}
           trigger={
             <div className='w-full flex items-center justify-between text-themeTextGray md:border-[1px] borderthem p-3 rounded-xl'>
-              <Image
-                src={`https://ucnrecdn.com/${groupInfo.group?.icon as string}/`}
+              <img
+                src={`https://ucarecdn.com/${groupInfo.group?.icon as string}/`}
                 alt='icon'
                 className='w-10 rounded-lg'
               />
@@ -79,7 +83,22 @@ const Sidebar = ({groupid, userid, mobile}: Props) => {
             </div>
           }
           >
-            {}
+            {groups && groups.groups.length > 0 && (groups.groups.map((item)=> (
+              item.id !== groupid && (
+                <Link
+                  key={item.id}
+                  href={`/group/${item.id}/channel/${channels?.channels?.[0].id}`}
+                >
+                  <Button
+                    variant={"ghost"}
+                    className='flex gap-2 w-full justify-center items-center hover:bg-themeGray'
+                    >
+                      <Group/>
+                      {item.name}
+                    </Button>
+                </Link>
+              )
+            )))}
           </DropDown>
       )}
     </div>
