@@ -1,6 +1,6 @@
 import { onDeleteChannel, onUpdateChannelInfo } from "@/actions/channels"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
 
@@ -54,28 +54,45 @@ export const useChannelInfo = () => {
         }
     })
 
-    const onEndChannelEdit = (event : Event) => {
-        if (inputRef.current && channelRef.current && triggerRef.current) {
-            if (!inputRef.current.contains(event?.target as Node | null) 
-            && !channelRef.current.contains(event?.target as Node | null) 
-            && triggerRef.current.contains(event?.target as Node | null) 
-            ) {
-                if (inputRef.current.value) {
-                    mutate({
-                        name : inputRef.current.value
-                    })
-                }
-                if (icon) {
-                    mutate({ icon })
-                }else {
-                    setEdit(false)
+    useEffect(()=> {
+        const onEndChannelEdit = (event : Event) => {
+            if (inputRef.current && channelRef.current && triggerRef.current) {
+                if (!inputRef.current.contains(event?.target as Node | null) 
+                && !channelRef.current.contains(event?.target as Node | null) 
+                && triggerRef.current.contains(event?.target as Node | null) 
+                ) {
+                    if (inputRef.current.value) {
+                        mutate({
+                            name : inputRef.current.value
+                        })
+                    }
+                    if (icon) {
+                        mutate({ icon })
+                    }else {
+                        setEdit(false)
+                    }
                 }
             }
         }
-    }
-    useEffect(()=> {
         document.addEventListener("click", onEndChannelEdit, false)
 
         return () => document.removeEventListener("click", onEndChannelEdit, false)
-    })
+    }, [icon, mutate])
+
+    const onChannelDelete = (id : string) => deleteMutation({id})
+
+    return {
+        channel,
+        onEditChannel,
+        channelRef,
+        edit,
+        inputRef,
+        variables,
+        isPending,
+        triggerRef,
+        onSetIcon,
+        icon,
+        onChannelDelete,
+        deleteVariables
+    }
 }
