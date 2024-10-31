@@ -28,7 +28,8 @@ const SideBarMenu = ({ channels, optimisticChannel, loading, groupid, groupUserI
     const pathname = usePathname()
     const currentPage = pathname.split("/").pop()
 
-    const {channel,
+    const {
+        channel : current,
         onEditChannel,
         channelRef,
         edit,
@@ -67,6 +68,42 @@ const SideBarMenu = ({ channels, optimisticChannel, loading, groupid, groupUserI
             )}
         </div>
     }
+
+    return <div className='flex flex-col'>
+        {channels && channels.length > 0 ? (
+            <>
+                {channels.map(channel=> channel.id !== deleteVariables?.id && 
+                    <Link 
+                        id='channel-link' 
+                        key={channel.id}
+                        className={cn("flex justify-between hover:bg-themeGray p-2 group rounded-lg items-center", channel.id === current && edit && "bg-themeGray")}
+                        href={`/group/${channel.groupId}/channel/${channel.id}`}
+                        {...(channel.name !== "general" && channel.name !== "announcements" && {
+                            onDoubleClick : () => onEditChannel(channel.id),
+                            ref : channelRef
+                        })}
+                    >
+                        <div className='flex gap-x-2 items-center'>
+                            {channel.id === current && edit ? (
+                                <IconDropDown
+                                    ref={triggerRef}
+                                    page={currentPage}
+                                    onSetIcon={onSetIcon}
+                                    channelid={channel.id}
+                                    icon={channel.icon}
+                                    currentIcon={icon}
+                                />
+                            ) : (
+                                <IconRenderer
+                                    icon={channel.icon}
+                                    mode={currentPage === channel.id ? "LIGHT" : "DARK"}
+                                />
+                            )}
+                        </div>
+                    </Link>)}
+            </>
+        ) : <></>}
+    </div>
 }
 
 export default SideBarMenu
