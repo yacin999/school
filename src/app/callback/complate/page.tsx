@@ -14,7 +14,7 @@ const CompleteOAuthAfterCallback = async () => {
         image : user.imageUrl,
         clerkId : user.id
     })
-
+    console.log("from callback complete route :", complete)
     if (complete.status ===  200) {
         redirect("/group/create")
     }
