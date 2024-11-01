@@ -7,6 +7,10 @@ import { useChannelInfo } from '@/hooks/channels'
 import { SIDEBAR_SETTINGS_MENU } from '@/constants/menus'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import IconDropDown from './icon-dropdown'
+import IconRenderer from '../icon-renderer'
+import { Input } from '@/components/ui/input'
+import { Trash } from 'lucide-react'
 
 type Props = {
     channels : IChannels[] | undefined
@@ -99,7 +103,26 @@ const SideBarMenu = ({ channels, optimisticChannel, loading, groupid, groupUserI
                                     mode={currentPage === channel.id ? "LIGHT" : "DARK"}
                                 />
                             )}
+                            {channel.id === current && edit ? (
+                                <Input
+                                    type='text'
+                                    ref={inputRef}
+                                    className='bg-transparent p-0 text-lg m-0 h-full border-none'
+                                />
+                            ): (
+                                <p
+                                    className={cn("text-lg capitalize", currentPage === channel.id ? "text-white" : "text-themeTextGray")}
+                                >
+                                    {isPending && variables && current === channel.id ? variables.name : channel.name}
+                                </p>
+                            )}
                         </div>
+                        {channel.name !== "general" && channel.name !== "announcements" && userId === groupUserId && (
+                            <Trash
+                                onClick={() => onChannelDelete(channel.id)}
+                                className='group-hover:inline hidden content-end text-themeTextGray hover:text-gray-400'
+                            />
+                        )}
                     </Link>)}
             </>
         ) : <></>}

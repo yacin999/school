@@ -2,7 +2,6 @@
 
 import { client } from "@/lib/prisma"
 import { onAuthenticatedUser } from "./auth"
-import { channel } from "diagnostics_channel"
 
 
 
