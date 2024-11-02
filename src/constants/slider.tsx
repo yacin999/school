@@ -1,6 +1,6 @@
 import { RefreshCcw } from "lucide-react"
 import {
-  Buisness,
+  Business,
   Fitness,
   LifeStyle,
   Music,
@@ -37,9 +37,9 @@ export const GROUP_LIST: GroupListProps[] = [
   },
   {
     id: "3",
-    label: "Buisness",
-    icon: <Buisness />,
-    path: "buisness",
+    label: "Business",
+    icon: <Business />,
+    path: "Business",
   },
   {
     id: "4",

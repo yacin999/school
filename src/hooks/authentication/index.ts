@@ -189,11 +189,13 @@ export const useGoogleAuth = () => {
   const signInWith = (strategy: OAuthStrategy) => {
     if (!LoadedSignIn) return
     try {
-      return signIn.authenticateWithRedirect({
+      const returendSignIn = signIn.authenticateWithRedirect({
         strategy,
         redirectUrl: "/callback",
         redirectUrlComplete: "/callback/sign-in",
       })
+      console.log("from useGoogle auth hook", returendSignIn)
+      return returendSignIn
     } catch (error) {
       console.error("Error from useGoogleAuth : (signin with)", error)
     }
@@ -202,6 +204,7 @@ export const useGoogleAuth = () => {
   const signUpWith = (strategy: OAuthStrategy) => {
     if (!LoadedSignUp) return
     try {
+      console.log("From signupwith hook that redirects to /callback/complete")
       return signUp.authenticateWithRedirect({
         strategy,
         redirectUrl: "/callback",

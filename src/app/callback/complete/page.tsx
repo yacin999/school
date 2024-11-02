@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 const CompleteOAuthAfterCallback = async () => {
     const user = await currentUser()
-
+    console.log("from CompleteOAuthAfterCallback (user)", user)
     if (!user) redirect("sign-in")
 
     const complete = await onSignUpUser({
@@ -14,7 +14,7 @@ const CompleteOAuthAfterCallback = async () => {
         image : user.imageUrl,
         clerkId : user.id
     })
-    console.log("from callback complete route :", complete)
+    console.log("from callback complete SIGNUP route :", complete)
     if (complete.status ===  200) {
         redirect("/group/create")
     }
