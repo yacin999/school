@@ -1,6 +1,6 @@
 import {
     AffiliateDuoToneBlack,
-    Buisness,
+    Business,
     Chat,
     Courses,
     CreditCard,
@@ -69,7 +69,7 @@ import {
     {
       id: 2,
       label: "Events",
-      icon: <Buisness />,
+      icon: <Business />,
       path: "/explore",
     },
     {

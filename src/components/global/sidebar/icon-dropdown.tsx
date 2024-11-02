@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { DropDown } from '../drop-down'
 import IconRenderer from '../icon-renderer'
 import { cn } from '@/lib/utils'
 import { ICON_LIST } from '@/constants/icons'
 
 type Props = {
-    ref : React.RefObject<HTMLButtonElement>
     icon : string
     page? : string
     channelid : string
@@ -13,7 +12,7 @@ type Props = {
     onSetIcon(icon: string):void
 }
 
-const IconDropDown = ({ref, icon, page, channelid, currentIcon, onSetIcon}: Props) => {
+const IconDropDown = forwardRef(function IconDropDown ({icon, page, channelid, currentIcon, onSetIcon}: Props, ref : React.ForwardedRef<HTMLButtonElement>) {
   
     return (
     <DropDown
@@ -45,6 +44,6 @@ const IconDropDown = ({ref, icon, page, channelid, currentIcon, onSetIcon}: Prop
         </div>
     </DropDown>
   )
-}
+})
 
 export default IconDropDown

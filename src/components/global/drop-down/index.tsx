@@ -5,15 +5,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
+import { forwardRef } from "react"
 
 type DropDownProps = {
   title: string
   trigger: JSX.Element
   children: React.ReactNode
-  ref?: React.RefObject<HTMLButtonElement>
 }
 
-export const DropDown = ({ trigger, title, children, ref }: DropDownProps) => {
+export const DropDown = forwardRef(function DropDown ({ trigger, title, children }: DropDownProps, ref : React.ForwardedRef<HTMLButtonElement>){
   return (
     <Popover>
       <PopoverTrigger asChild ref={ref}>
@@ -26,4 +26,4 @@ export const DropDown = ({ trigger, title, children, ref }: DropDownProps) => {
       </PopoverContent>
     </Popover>
   )
-}
+})
