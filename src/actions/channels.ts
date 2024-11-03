@@ -108,6 +108,7 @@ export const onUpdateChannelInfo = async (
   icon?: string,
 ) => {
   try {
+    console.log("========= from update channel name :", name)
     if (name) {
       const channel = await client.channel.update({
         where: {

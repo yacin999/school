@@ -7,6 +7,7 @@ import {
   onGetUserGroups,
 } from "@/actions/groups"
 import SideBar from "@/components/global/sidebar"
+import { ReactQueryProvider } from "@/react-query/provider"
 import {
   HydrationBoundary,
   QueryClient,
@@ -15,6 +16,7 @@ import {
 import { redirect } from "next/navigation"
 // import { Navbar } from "../_components/navbar"
 // import MobileNav from "../_components/mobile-nav"
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 type Props = {
   children: React.ReactNode
@@ -60,17 +62,20 @@ const GroupLayout = async ({ children, params }: Props) => {
   })
 
   return (
-    <HydrationBoundary state={dehydrate(query)}>
-      <div className="flex h-screen md:pt-5">
-        <SideBar groupid={params.groupid} userid={user.id} />
-        {children}
-        {/* <div className="md:ml-[300px] flex flex-col flex-1 bg-[#101011] md:rounded-tl-xl overflow-y-auto border-l-[1px] border-t-[1px] border-[#28282D]">
-          <Navbar groupid={params.groupid} userid={user.id} />
-          {children}
-          <MobileNav groupid={params.groupid} />
-        </div> */}
-      </div>
-    </HydrationBoundary>
+    <ReactQueryProvider>
+        <HydrationBoundary state={dehydrate(query)}>
+            <ReactQueryDevtools initialIsOpen={false}/>
+            <div className="flex h-screen md:pt-5">
+                <SideBar groupid={params.groupid} userid={user.id} />
+                {children}
+                {/* <div className="md:ml-[300px] flex flex-col flex-1 bg-[#101011] md:rounded-tl-xl overflow-y-auto border-l-[1px] border-t-[1px] border-[#28282D]">
+                <Navbar groupid={params.groupid} userid={user.id} />
+                {children}
+                <MobileNav groupid={params.groupid} />
+                </div> */}
+            </div>
+        </HydrationBoundary>
+    </ReactQueryProvider>
   )
 }
 
