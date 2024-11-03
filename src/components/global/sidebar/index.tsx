@@ -60,7 +60,6 @@ export interface IGroups {
 const SideBar = ({ groupid, userid, mobile }: Props) => {
   const { groupInfo, groups, mutate, variables, isPending, channels } =
   useSidebar(groupid)
-  console.log(groups.groups)
 
   useGroupChatOnline(userid)
 
