@@ -14,8 +14,8 @@ import {
   dehydrate,
 } from "@tanstack/react-query"
 import { redirect } from "next/navigation"
-// import { Navbar } from "../_components/navbar"
-// import MobileNav from "../_components/mobile-nav"
+import { Navbar } from "../_components/navbar"
+import MobileNav from "../_components/mobile-nav"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 type Props = {
@@ -68,11 +68,11 @@ const GroupLayout = async ({ children, params }: Props) => {
             <div className="flex h-screen md:pt-5">
                 <SideBar groupid={params.groupid} userid={user.id} />
                 {children}
-                {/* <div className="md:ml-[300px] flex flex-col flex-1 bg-[#101011] md:rounded-tl-xl overflow-y-auto border-l-[1px] border-t-[1px] border-[#28282D]">
+                <div className="md:ml-[300px] flex flex-col flex-1 bg-[#101011] md:rounded-tl-xl overflow-y-auto border-l-[1px] border-t-[1px] border-[#28282D]">
                 <Navbar groupid={params.groupid} userid={user.id} />
                 {children}
                 <MobileNav groupid={params.groupid} />
-                </div> */}
+                </div>
             </div>
         </HydrationBoundary>
     </ReactQueryProvider>
