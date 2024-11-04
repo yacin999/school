@@ -45,7 +45,7 @@ const GroupLayout = async ({ children, params }: Props) => {
 
   //channels
   await query.prefetchQuery({
-    queryKey: ["group-channels"],
+    queryKey: ["group-channels", params.groupid],
     queryFn: () => onGetGroupChannels(params.groupid),
   })
 

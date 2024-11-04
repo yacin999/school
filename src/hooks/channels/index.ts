@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
 
-export const useChannelInfo = () => {
+export const useChannelInfo = (groupId : string) => {
     const channelRef = useRef<HTMLAnchorElement | null>(null)
     const inputRef = useRef<HTMLInputElement | null>(null)
     const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -33,9 +33,10 @@ export const useChannelInfo = () => {
             })
         },
         onSettled : async() => {
-            return await client.invalidateQueries({
-                queryKey : ["group-channels"]
+            await client.invalidateQueries({
+                queryKey : ["group-channels", groupId]
             })
+            await client.refetchQueries({ queryKey: ["group-channels", groupId], exact: true });
         }
     })
 
@@ -48,9 +49,10 @@ export const useChannelInfo = () => {
             })
         }, 
         onSettled : async () => {
-            return await client.invalidateQueries({
-                queryKey : ["group-channels"]
+            await client.invalidateQueries({
+                queryKey : ["group-channels", groupId]
             })
+            await client.refetchQueries({ queryKey: ["group-channels", groupId], exact: true });
         }
     })
 

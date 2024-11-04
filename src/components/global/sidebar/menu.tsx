@@ -45,7 +45,7 @@ const SideBarMenu = ({ channels, optimisticChannel, loading, groupid, groupUserI
         icon,
         onChannelDelete,
         deleteVariables
-    } = useChannelInfo()
+    } = useChannelInfo(groupid)
 
     if (pathname.includes("settings")) {
         return <div className='flex flex-col'>
