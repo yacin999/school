@@ -26,12 +26,12 @@ export const onlineTracking = createSlice({
                 state.members = [...state.members, ...action.payload.members]
             }
         },
-        onOffilne : (state, action : PayloadAction<InitialStateProps>)=> {
+        onOffline : (state, action : PayloadAction<InitialStateProps>)=> {
             // look for member and remove them
             state.members = state.members.filter((member : any)=> action.payload.members.find((m : any)=> member.id !== m.id))
         }
     }
 })
 
-export const {onOnline, onOffilne} = onlineTracking.actions
+export const {onOnline, onOffline} = onlineTracking.actions
 export default onlineTracking.reducer
