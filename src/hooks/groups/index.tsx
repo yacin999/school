@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { onSearchGroups } from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
+import { onSearch } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
