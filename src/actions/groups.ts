@@ -320,8 +320,8 @@ export const onSearchGroups = async (
             if (fetchedGroups) {
                 if (fetchedGroups.length > 0) {
                     return {
-                        status : 200,
-                        message : fetchedGroups
+                        status: 200,
+                        groups: fetchedGroups,
                     }
                 }
             }
@@ -331,7 +331,28 @@ export const onSearchGroups = async (
 
 
         if (mode === "POSTS") {
-            
+            const fetchedPosts = await client.post.findMany({
+                where : {
+                    title : {
+                        contains : query,
+                        mode : "insensitive"
+                    }
+                },
+                take : 6,
+                skip : paginate || 0
+            })
+
+
+            if (fetchedPosts) {
+                if (fetchedPosts.length > 0) {
+                    return {
+                        status: 200,
+                        posts: fetchedPosts,
+                    }
+                }
+            }
+
+            return {status : 404}
         }
     } catch (error) {
         console.log("Error from onSearchGroup :", error)

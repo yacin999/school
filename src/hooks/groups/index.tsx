@@ -2,10 +2,10 @@
 import { onSearchGroups } from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
-import { onSearch } from "@/redux/slices/search-slice"
+import { onClearSearch, onSearch } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 
 export const useGroupChatOnline = (userid : string) => {
@@ -61,16 +61,19 @@ export const useSearch = (search : "GROUPS" | "POSTS") => {
     }, [query])
 
 
-    const {refresh, data, isFetched, isFetching} = useQuery({
-        queryKey : ["search-data", debounce],
-        queryFn : async ({queryKey}) => {
-            if (search ===  "GROUPS") {
-                const groups = await onSearchGroups(search, queryKey[1])
-                return groups
-            }
+    const { refetch, data, isFetched, isFetching } = useQuery({
+        queryKey: ["search-data", debounce],
+        queryFn: async ({ queryKey }) => {
+          if (search === "GROUPS") {
+            const groups = await onSearchGroups(search, queryKey[1])
+            return groups
+          }else if (search === "POSTS") {
+            const posts = await onSearchGroups(search, queryKey[1])
+            return posts
+          }
         },
-        enabled : false
-    })
+        enabled: false,
+      })
 
     if (isFetching) {
         dispatch(onSearch({
@@ -78,5 +81,24 @@ export const useSearch = (search : "GROUPS" | "POSTS") => {
             data : []
         }))
     }
+
+    if (isFetched) {
+        dispatch(
+          onSearch({
+            isSearching: false,
+            status: data?.status as number,
+            data: data?.groups || [],
+            debounce,
+          }),
+        )
+    }    
+
+    useEffect(() => {
+        if (debounce) refetch()
+        if(!debounce) dispatch(onClearSearch())
+    
+    }, [refetch, dispatch, debounce])
+
+    return {query, onSearchQuery}
     
 }

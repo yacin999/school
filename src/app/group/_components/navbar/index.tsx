@@ -33,7 +33,7 @@ export const Navbar = async ({ groupid, userid }: NavbarProps) => {
           Create Group
         </Button>
       </Link>
-      {/* <UserWidget userid={userid} image={user?.imageUrl} groupid={groupid} /> */}
+      <UserWidget userid={userid} image={user?.imageUrl} groupid={groupid} />
     </div>
   )
 }
