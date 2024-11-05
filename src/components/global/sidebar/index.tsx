@@ -67,7 +67,7 @@ const SideBar = ({ groupid, userid, mobile }: Props) => {
     <div
       className={cn(
         "h-screen flex-col gap-y-10 sm:px-5",
-        !mobile ? "hidden bg-black md:w-[300px] fixed md:flex" : "w-full flex",
+        !mobile ? "hidden md:flex fixed bg-black md:w-[300px]" : "w-full flex",
       )}
     >
       {groups.groups && groups.groups.length > 0 && (
