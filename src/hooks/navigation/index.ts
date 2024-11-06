@@ -3,12 +3,17 @@ import { onGetGroupChannels } from "@/actions/groups"
 import { IGroupInfo, IGroups } from "@/components/global/sidebar"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
 export const useNavigation = () => {
   const pathName = usePathname()
   const [section, setSection] = useState<string>(pathName)
+
+  useEffect(() => {
+    setSection(pathName)
+  }, [pathName])
+
   const onSetSection = (page: string) => setSection(page)
   return {
     section,

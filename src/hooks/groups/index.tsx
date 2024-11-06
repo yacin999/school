@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onSearchGroups } from "@/actions/groups"
+import { onGetGroupInfo, onSearchGroups } from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { onClearSearch, onSearch } from "@/redux/slices/search-slice"
@@ -7,6 +7,7 @@ import { AppDispatch } from "@/redux/store"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
+import { JSONContent } from "novel"
 
 export const useGroupChatOnline = (userid : string) => {
     const dispatch : AppDispatch = useDispatch()
@@ -101,4 +102,18 @@ export const useSearch = (search : "GROUPS" | "POSTS") => {
 
     return {query, onSearchQuery}
     
+}
+
+
+export const useGroupSettings = (groupid : string) => {
+  const { data } = useQuery({
+    queryKey : ["group-info"],
+    queryFn : () => onGetGroupInfo(groupid)
+  })
+
+  const jsonContent = data?.group?.jsonDescription !== null ? JSON.parse(data?.group?.jsonDescription as string) : undefined
+
+  const [onJsonDescription, setOnJsonDescription] = useState<JSONContent | undefined>(jsonContent)
+
+  const [onJsonDescription, setOnJsonDescription] = useState<string | undefined>(data?.group?.description || undefined)
 }
