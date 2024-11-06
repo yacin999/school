@@ -362,3 +362,16 @@ export const onSearchGroups = async (
         }
     }
 }
+
+export const onUpdateGroupSettings = async (
+    groupid : string,
+    image : string,
+    uploadedid : string,
+    path : string
+) => {
+    try {
+        
+    } catch (error) {
+        console.log("error from onUpdateGroupSettings action", error)
+    }
+}
