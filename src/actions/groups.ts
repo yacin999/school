@@ -5,6 +5,8 @@ import { client } from "@/lib/prisma"
 import { z } from "zod"
 import { v4 as uuidv4 } from 'uuid';
 import { onAuthenticatedUser } from "./auth";
+import { revalidatePath } from "next/cache";
+import { groupProps } from "@/components/forms/group-settings/schema";
 
 
 
@@ -365,13 +367,85 @@ export const onSearchGroups = async (
 
 export const onUpdateGroupSettings = async (
     groupid : string,
-    image : string,
-    uploadedid : string,
+    type : 
+    | "IMAGE"
+    | "ICON"
+    | "NAME"
+    | "DESCRIPTION"
+    | "JSONDESCRIPTION"
+    | "HTMLDESCRIPTION"
+    ,
+    content : string,
     path : string
 ) => {
     try {
-        
+        await client.group.update({
+            where : {
+                id : groupid
+            },
+            data : {
+                [groupProps[type]] : content
+            }
+        })
+
+        // if (type === "ICON") {
+        //     await client.group.update({
+        //         where : {
+        //             id : groupid
+        //         },
+        //         data : {
+        //             icon : content
+        //         }
+        //     })
+        // }
+
+        // if (type === "DESCRIPTION") {
+        //     await client.group.update({
+        //         where : {
+        //             id : groupid
+        //         },
+        //         data : {
+        //             description : content
+        //         }
+        //     })
+        // }
+
+        // if (type === "NAME") {
+        //     await client.group.update({
+        //         where : {
+        //             id : groupid
+        //         },
+        //         data : {
+        //             name : content
+        //         }
+        //     })
+        // }
+
+        // if (type === "JSONDESCRIPTION") {
+        //     await client.group.update({
+        //         where : {
+        //             id : groupid
+        //         },
+        //         data : {
+        //             jsonDescription : content
+        //         }
+        //     })
+        // }
+
+        // if (type === "HTMLDESCRIPTION") {
+        //     await client.group.update({
+        //         where : {
+        //             id : groupid
+        //         },
+        //         data : {
+        //             htmlDescription : content
+        //         }
+        //     })
+        // }
+        revalidatePath(path)
+        return {status : 200}
     } catch (error) {
         console.log("error from onUpdateGroupSettings action", error)
+        return {status : 400}
     }
 }

@@ -14,6 +14,7 @@ import { z } from "zod"
 import { GroupSettingsSchema } from "@/components/forms/group-settings/schema"
 import { toast } from "sonner"
 import { upload } from "@/lib/uploadcare"
+import { useRouter } from "next/navigation"
 
 export const useGroupChatOnline = (userid : string) => {
     const dispatch : AppDispatch = useDispatch()
@@ -119,7 +120,7 @@ export const useGroupSettings = (groupid : string) => {
 
   const jsonContent = data?.group?.jsonDescription !== null ? JSON.parse(data?.group?.jsonDescription as string) : undefined
 
-  const [onJsonDescription, setOnJsonDescription] = useState<JSONContent | undefined>(jsonContent)
+  const [onJsonDescription, setJsonDescription] = useState<JSONContent | undefined>(jsonContent)
 
   const [onDescription, setOnDescription] = useState<string | undefined>(data?.group?.description || undefined)
 
@@ -127,8 +128,7 @@ export const useGroupSettings = (groupid : string) => {
   
   const {
     register,
-    formState,
-    reset,
+    formState : {errors},
     handleSubmit,
     watch,
     setValue
@@ -142,6 +142,7 @@ export const useGroupSettings = (groupid : string) => {
 
   useEffect(() => {
     const previews = watch(({thumbnail, icon})=> {
+      if (!icon) return
       if (icon[0]) {
         setPreviewIcon(URL.createObjectURL(icon[0]))
       }
@@ -158,18 +159,19 @@ export const useGroupSettings = (groupid : string) => {
 
   const onSetDescriptions = () => {
     const JsonContent = JSON.stringify(onJsonDescription)
-    setValue("jsondescription", jsonContent)
+    setValue("jsondescription", JsonContent)
     setValue("description", onDescription)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     onSetDescriptions()
-
     return () => {
       onSetDescriptions()
     }
   }, [onJsonDescription, onDescription])
   
+
+ 
 
   const {mutate : update, isPending } = useMutation({
     mutationKey : ["group-settings"],
@@ -189,6 +191,118 @@ export const useGroupSettings = (groupid : string) => {
           })
         }
       }
+      if (values.icon && values.icon.length > 0 ) {
+        const uploaded = await upload.uploadFile(values.icon[0]) 
+        const updated = await onUpdateGroupSettings(
+          groupid,
+          "ICON",
+          uploaded.uuid,
+          `/group/${groupid}/settings`
+        )
+
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description : "Oops! your form looks like is empty"
+          })
+        }
+      }
+      if ( values.name ) {
+        const updated = await onUpdateGroupSettings(
+          groupid,
+          "NAME",
+          values.name,
+          `/group/${groupid}/settings`
+        )
+
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description : "Oops! your form looks like is empty"
+          })
+        }
+      }
+      if ( values.description ) {
+        const updated = await onUpdateGroupSettings(
+          groupid,
+          "DESCRIPTION",
+          values.description,
+          `/group/${groupid}/settings`
+        )
+
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description : "Oops! your form looks like is empty"
+          })
+        }
+      }
+      if ( values.jsondescription ) {
+        const updated = await onUpdateGroupSettings(
+          groupid,
+          "DESCRIPTION",
+          values.jsondescription,
+          `/group/${groupid}/settings`
+        )
+
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description : "Oops! your form looks like is empty"
+          })
+        }
+      }
+      if ( values.htmldescription ) {
+        const updated = await onUpdateGroupSettings(
+          groupid,
+          "DESCRIPTION",
+          values.htmldescription,
+          `/group/${groupid}/settings`
+        )
+
+        if (updated.status !== 200) {
+          return toast("Error", {
+            description : "Oops! your form looks like is empty"
+          })
+        }
+      }
+
+      if (
+        !values.description &&
+        !values.name &&
+        !values.icon &&
+        !values.htmldescription &&
+        !values.jsondescription &&
+        !values.thumbnail
+      ) {
+        return toast("Error", {
+          description : "Oops! your form looks like is empty"
+        })
+      }
+
+      return toast("Success", {
+        description : "Group data updated"
+      })
     }
+
+
   })
+
+  const router = useRouter()
+
+  const onUpdate = handleSubmit(async (values) => update(values))
+
+  if (data?.status !== 200 ) router.push("/group/create")
+
+  return {
+    data,
+    register,
+    errors,
+    update,
+    isPending,
+    onUpdate,
+    previewIcon,
+    previewThumbnail,
+    setPreviewThumbnail,
+    onJsonDescription,
+    setJsonDescription,
+    setOnDescription,
+    onDescription
+  }
 }
