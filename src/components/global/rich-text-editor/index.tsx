@@ -1,4 +1,4 @@
-import { JSONContent } from 'novel'
+import { EditorContent, EditorRoot, JSONContent } from 'novel'
 import React, { useState } from 'react'
 import { FieldErrors } from 'react-hook-form'
 import HtmlParser from '../html-parser'
@@ -40,9 +40,14 @@ const BlockTextEditor = ({
     const [characters, setCharacters] = useState<number | undefined>(textContent?.length || undefined)
   return (
     <div>
+      {" "}
       {htmlContent && !onEdit && inline ? (
         <HtmlParser html={htmlContent}/>
-      ) : <></>}
+      ) : (
+        <EditorRoot>
+          <EditorContent></EditorContent>
+        </EditorRoot>
+      )}
     </div>
   )
 }
