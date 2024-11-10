@@ -6,6 +6,7 @@ import { FieldErrors } from 'react-hook-form'
 import HtmlParser from '../html-parser'
 import { characterCount, handleCommandNavigation, Placeholder } from "novel/extensions"
 import { cn } from '@/lib/utils'
+import { defaultExtensions } from './extentions'
 
 type Props = {
     content : JSONContent | undefined
@@ -76,7 +77,7 @@ const BlockTextEditor = ({
               setCharacters(text.length)
             }}
             extensions={[
-              ...defaultExtentions,
+              ...defaultExtensions,
               slashCommand,
               characterCount.configure({
                 limit : max
