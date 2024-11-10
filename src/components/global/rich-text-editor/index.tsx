@@ -7,6 +7,8 @@ import HtmlParser from '../html-parser'
 import { characterCount, handleCommandNavigation, Placeholder } from "novel/extensions"
 import { cn } from '@/lib/utils'
 import { defaultExtensions } from './extentions'
+import { slashCommand } from './slash-command'
+import { Video } from "./video"
 
 type Props = {
     content : JSONContent | undefined
