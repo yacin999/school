@@ -4,11 +4,12 @@ import { EditorContent, EditorRoot, JSONContent } from 'novel'
 import React, { useState } from 'react'
 import { FieldErrors } from 'react-hook-form'
 import HtmlParser from '../html-parser'
-import { characterCount, handleCommandNavigation, Placeholder } from "novel/extensions"
+import { CharacterCount, handleCommandNavigation, Placeholder } from "novel/extensions"
 import { cn } from '@/lib/utils'
 import { defaultExtensions } from './extentions'
 import { slashCommand } from './slash-command'
 import { Video } from "./video"
+import { Image } from './image'
 
 type Props = {
     content : JSONContent | undefined
@@ -81,7 +82,7 @@ const BlockTextEditor = ({
             extensions={[
               ...defaultExtensions,
               slashCommand,
-              characterCount.configure({
+              CharacterCount.configure({
                 limit : max
               }),
               Placeholder.configure({
