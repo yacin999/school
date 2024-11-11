@@ -39,11 +39,7 @@ const GroupSettingsForm = ({ groupid }: Props) => {
           <p>Group Preview</p>
           <GroupCard
             id={data?.group?.id!}
-            createdAt={data?.group?.createdAt!}
-            userId={data?.group?.userId!}
-            category={data?.group?.category!}
             description={data?.group?.description!}
-            privacy={data?.group?.privacy!}
             thumbnail={data?.group?.thumbnail!}
             name={data?.group?.name!}
             preview={previewThumbnail!}
@@ -58,7 +54,7 @@ const GroupSettingsForm = ({ groupid }: Props) => {
                 {...register("thumbnail")}
               />
               Change Cover
-            </Label>
+          </Label>
         </div>
         
         <div className='flex-1 flex flex-col gap-3 items-start'>

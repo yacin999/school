@@ -5,11 +5,7 @@ import React from 'react'
 
 type Props = {
     id : string
-    createdAt : Date
-    userId : string
-    category : string
     description : string
-    privacy : "PUBLIC" | "PRIVATE"
     thumbnail : string | null
     preview : string
     name? : string
@@ -17,11 +13,7 @@ type Props = {
 
 const GroupCard = ({
     id,
-    createdAt,
-    userId,
-    category,
     description,
-    privacy,
     thumbnail,
     name,
     preview,
