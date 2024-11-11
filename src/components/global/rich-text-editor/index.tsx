@@ -13,6 +13,7 @@ import { Image } from './image'
 import NodeSelector from './node-selector'
 import LinkSelector from './link-selector'
 import ColorSelector from './color-selector'
+import { TextButtons } from './text-selector'
 
 type Props = {
     content : JSONContent | undefined
@@ -132,6 +133,7 @@ const BlockTextEditor = ({
                   open={openLink}
                   onOpenChange={setopenLink}
                 />
+                <TextButtons/>
                 <ColorSelector
                   open={openColor}
                   onOpenChange={setopenColor}

@@ -76,6 +76,7 @@ const items: SelectorItem[] = [
           .chain()
           .focus()
           .toggleNode("paragraph", "paragraph")
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
           .toggleBlockquote()
           .run(),
