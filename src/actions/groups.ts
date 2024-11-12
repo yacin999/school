@@ -376,7 +376,6 @@ export const onUpDateGroupSettings = async (
     content: string,
     path: string,
   ) => {
-      console.log("from onUpdateGRoupSEttings :", content)
     try {
       if (type === "IMAGE") {
         await client.group.update({

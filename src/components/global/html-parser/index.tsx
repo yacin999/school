@@ -5,7 +5,7 @@ type Props = {
     html : string
 }
 
-const HtmlParser = ({html}: Props) => {
+export const HtmlParser = ({html}: Props) => {
 
     const [mounted, setMounted] = useState<boolean>(false)
 
@@ -20,4 +20,3 @@ const HtmlParser = ({html}: Props) => {
   )
 }
 
-export default HtmlParser

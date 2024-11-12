@@ -220,7 +220,6 @@ export const useGroupSettings = (groupid : string) => {
         }
       }
       if ( values.description ) {
-        console.log("from description IF CONDITION")
         const updated = await onUpDateGroupSettings(
           groupid,
           "DESCRIPTION",
@@ -237,7 +236,7 @@ export const useGroupSettings = (groupid : string) => {
       if ( values.jsondescription ) {
         const updated = await onUpDateGroupSettings(
           groupid,
-          "DESCRIPTION",
+          "JSONDESCRIPTION",
           values.jsondescription,
           `/group/${groupid}/settings`
         )
@@ -251,7 +250,7 @@ export const useGroupSettings = (groupid : string) => {
       if ( values.htmldescription ) {
         const updated = await onUpDateGroupSettings(
           groupid,
-          "DESCRIPTION",
+          "HTMLDESCRIPTION",
           values.htmldescription,
           `/group/${groupid}/settings`
         )

@@ -27,8 +27,6 @@ const UserAvatar = ({ userid, image, groupid }: Props) => {
     }
     const dispatch : AppDispatch = useDispatch()
 
-    console.log(userid)
-
     const onLogout = async () => {
         untrackPresence()
         dispatch(onOffline({members : [{id : userid!}]}))
