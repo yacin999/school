@@ -5,9 +5,9 @@ import Link from 'next/link'
 import UserAvatar from './user'
 
 type Props = {
-    image : string | undefined
-    groupid : string
-    userid : string
+    image : string 
+    groupid?: string
+    userid?: string
 }
 
 const UserWidget = ({ image, groupid, userid }: Props) => {

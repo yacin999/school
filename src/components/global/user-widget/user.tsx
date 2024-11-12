@@ -14,9 +14,9 @@ import Link from 'next/link'
 
 
 type Props = {
-    userid : string
-    image : string | undefined
-    groupid : string
+    image: string
+    groupid?: string
+    userid?: string
 }
 
 const UserAvatar = ({ userid, image, groupid }: Props) => {
