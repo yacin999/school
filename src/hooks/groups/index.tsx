@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onGetGroupInfo, onSearchGroups, onUpdateGroupSettings } from "@/actions/groups"
+import { onGetGroupInfo, onSearchGroups, onUpDateGroupSettings } from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { onClearSearch, onSearch } from "@/redux/slices/search-slice"
@@ -148,7 +148,7 @@ export const useGroupSettings = (groupid : string) => {
       }
 
       if (thumbnail[0]) {
-        setPreviewIcon(URL.createObjectURL(thumbnail[0]))
+        setPreviewThumbnail(URL.createObjectURL(thumbnail[0]))
       }
     })
   
@@ -178,22 +178,21 @@ export const useGroupSettings = (groupid : string) => {
     mutationFn : async (values : z.infer<typeof GroupSettingsSchema>) => {
       if (values.thumbnail && values.thumbnail.length > 0) {
         const uploaded = await upload.uploadFile(values.thumbnail[0]) 
-        const updated = await onUpdateGroupSettings(
+        const updated = await onUpDateGroupSettings(
           groupid,
           "IMAGE",
           uploaded.uuid,
           `/group/${groupid}/settings`
         )
-
         if (updated.status !== 200) {
           return toast("Error", {
             description : "Oops! your form looks like is empty"
           })
-        }
+        }        
       }
       if (values.icon && values.icon.length > 0 ) {
         const uploaded = await upload.uploadFile(values.icon[0]) 
-        const updated = await onUpdateGroupSettings(
+        const updated = await onUpDateGroupSettings(
           groupid,
           "ICON",
           uploaded.uuid,
@@ -207,7 +206,7 @@ export const useGroupSettings = (groupid : string) => {
         }
       }
       if ( values.name ) {
-        const updated = await onUpdateGroupSettings(
+        const updated = await onUpDateGroupSettings(
           groupid,
           "NAME",
           values.name,
@@ -221,7 +220,8 @@ export const useGroupSettings = (groupid : string) => {
         }
       }
       if ( values.description ) {
-        const updated = await onUpdateGroupSettings(
+        console.log("from description IF CONDITION")
+        const updated = await onUpDateGroupSettings(
           groupid,
           "DESCRIPTION",
           values.description,
@@ -235,7 +235,7 @@ export const useGroupSettings = (groupid : string) => {
         }
       }
       if ( values.jsondescription ) {
-        const updated = await onUpdateGroupSettings(
+        const updated = await onUpDateGroupSettings(
           groupid,
           "DESCRIPTION",
           values.jsondescription,
@@ -249,7 +249,7 @@ export const useGroupSettings = (groupid : string) => {
         }
       }
       if ( values.htmldescription ) {
-        const updated = await onUpdateGroupSettings(
+        const updated = await onUpDateGroupSettings(
           groupid,
           "DESCRIPTION",
           values.htmldescription,
@@ -262,7 +262,6 @@ export const useGroupSettings = (groupid : string) => {
           })
         }
       }
-
       if (
         !values.description &&
         !values.name &&
@@ -294,7 +293,6 @@ export const useGroupSettings = (groupid : string) => {
     data,
     register,
     errors,
-    update,
     isPending,
     onUpdate,
     previewIcon,
