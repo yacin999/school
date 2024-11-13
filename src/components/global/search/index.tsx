@@ -8,14 +8,14 @@ import React from 'react'
 
 type Props = {
   className : string
-  inputStype? : string
+  inputStyle? : string
   placeholder : string
   searchType : "GROUPS" | "POSTS"
   iconStyle? : string
   glass? : boolean
 }
 
-const Search = ({className, inputStype, placeholder, searchType, iconStyle, glass}: Props) => {
+const Search = ({className, inputStyle, placeholder, searchType, iconStyle, glass}: Props) => {
   const { query, onSearchQuery } = useSearch(searchType)
   return (
     <div className={cn(
@@ -28,7 +28,7 @@ const Search = ({className, inputStype, placeholder, searchType, iconStyle, glas
       <Input
         onChange={onSearchQuery}
         value={query}
-        className={cn("bg-transparent border-0", inputStype)}
+        className={cn("bg-transparent border-0", inputStyle)}
         placeholder={placeholder}
         type='text'
       />
