@@ -479,3 +479,58 @@ export const onGetExploreGroup = async (category : string, paginate : number) =>
     }
 }
   
+export const onGetPaginatePosts = async (
+    identifier : string,
+    paginate? : number
+) => {
+    try {
+        const user = await onAuthenticatedUser()
+        const posts = await client.post.findMany({
+            where : {
+                channelId : identifier
+            },
+            skip : paginate,
+            take : 2,
+            orderBy : {
+                createdAt : "desc"
+            },
+            include : {
+                channel : {
+                    select : {
+                        name : true
+                    }
+                },
+                author : {
+                    select : {
+                        firstname : true,
+                        lastname : true,
+                        image : true
+                    }
+                },
+                _count : {
+                    select : {
+                        likes : true,
+                        comments : true
+                    }
+                },
+                likes : {
+                    where : {
+                        userId : user.id!
+                    },
+                    select : {
+                        userId : true,
+                        id : true
+                    }
+                }
+            }
+        })
+
+        if (posts && posts.length > 0) return {status : 200, posts}
+        return {status : 404}
+    } catch (error) {
+        console.log("Error from onGetPaginatePosts action", error)
+        return {
+            status: 400
+        }
+    }
+}
