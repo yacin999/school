@@ -1,7 +1,8 @@
 import { onGetPaginatePosts, onSearchGroups } from "@/actions/groups"
+import { onInfiniteScroll } from "@/redux/slices/infinite-scroll-slice"
 import { AppDispatch, useAppSelector } from "@/redux/store"
 import { useQuery } from "@tanstack/react-query"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 
 export const useInfiniteScroll = (
@@ -41,6 +42,24 @@ export const useInfiniteScroll = (
                     }
                 }
             }
-        })
+            return null
+        }),
+        enabled : false
     })
+
+    if (isFetched && paginateData) {
+        dispatch(onInfiniteScroll({ data : paginateData }))
+    }
+
+    useEffect(()=> {
+        const observer = new IntersectionObserver((entries)=> {
+            if (entries[0].isIntersecting) refetch()
+        })
+
+        observer.observe(observerElement.current as Element)
+
+        return () => observer.disconnect()
+    }, [])
+
+    return {observerElement, isFetching}
 }

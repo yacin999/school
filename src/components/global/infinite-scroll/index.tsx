@@ -1,6 +1,8 @@
 "use client"
 
+import { useInfiniteScroll } from '@/hooks/infinite-scroll'
 import React from 'react'
+import Skeleton from '../skeleton'
 
 type Props = {
     action : "GROUPS" | "POSTS"
@@ -26,7 +28,12 @@ const InfiniteScrollObserver = ({
         search
     )
   return (
-    <div>InfiniteScrollObserver</div>
+    <>
+      {children}
+      <div ref={observerElement}>
+        {isFetching && <Skeleton element={loading || "CARD" }/>}
+      </div>
+    </>
   )
 }
 
