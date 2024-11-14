@@ -3,6 +3,8 @@ import { GroupStateProps } from '@/redux/slices/search-slice'
 import React from 'react'
 import GroupCard from './group-card'
 import NoResult from '@/components/global/search/no-results'
+import InfiniteScrollObserver from '@/components/global/infinite-scroll'
+import PaginatedGroups from './paginated-groups'
 
 type Props = {
     searching : boolean
@@ -29,7 +31,9 @@ export const SearchGroups = ({searching, data, query}: Props) => {
                 identifier={query as string}
                 paginate={data.length}
                 search
-            />
+            >
+                <PaginatedGroups/>
+            </InfiniteScrollObserver>
         )}
     </div>
   )
