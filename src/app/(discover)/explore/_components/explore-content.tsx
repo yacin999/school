@@ -44,7 +44,9 @@ const ExplorePageContent = ({layout, category}: Props) => {
                                 query="music"
                             />
                         </>
-                    ) : (<></>)
+                    ) : (
+                        
+                    )
                 )
             ) 
             }
