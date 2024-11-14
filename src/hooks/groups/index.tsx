@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onGetGroupInfo, onSearchGroups, onUpDateGroupSettings } from "@/actions/groups"
+import { onGetExploreGroup, onGetGroupInfo, onSearchGroups, onUpDateGroupSettings } from "@/actions/groups"
 import { supabaseClient } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
-import { onClearSearch, onSearch } from "@/redux/slices/search-slice"
+import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { JSONContent } from "novel"
 import { useForm } from "react-hook-form"
@@ -15,6 +15,7 @@ import { GroupSettingsSchema } from "@/components/forms/group-settings/schema"
 import { toast } from "sonner"
 import { upload } from "@/lib/uploadcare"
 import { useRouter } from "next/navigation"
+import { onClearList, onInfiniteScroll } from "@/redux/slices/infinite-scroll-slice"
 
 export const useGroupChatOnline = (userid : string) => {
     const dispatch : AppDispatch = useDispatch()
@@ -302,4 +303,45 @@ export const useGroupSettings = (groupid : string) => {
     setOnDescription,
     onDescription
   }
+}
+
+
+export const useGroupList = (query : string) => {
+  const { data } = useQuery({
+    queryKey : [query]
+  })
+
+  const dispatch : AppDispatch = useDispatch()
+
+  useLayoutEffect(()=> {
+    dispatch(onClearList({ data : [] }))
+  }, [])
+
+  const { groups, status } = data as {
+    groups : GroupStateProps[],
+    status : number
+  }
+
+  return { groups, status }
+}
+
+
+export const useExploreSlider = (query : string, paginate : number) => {
+  const [onLoadSlider, setOnLoadSlider] = useState<boolean>(false)
+  const dispatch : AppDispatch = useDispatch()
+  const { data, refetch, isFetching, isFetched } = useQuery({
+    queryKey : ["fetch-group-slides"],
+    queryFn : () => onGetExploreGroup(query, paginate | 0),
+    enabled : false
+  })
+
+  if (isFetched && data?.status === 200 && data.groups) {
+    dispatch(onInfiniteScroll({ data : data.groups }))
+  }
+
+  useEffect(()=> {
+    setOnLoadSlider(true)
+  }, [])
+
+  return { refetch, isFetching, data, onLoadSlider }
 }
