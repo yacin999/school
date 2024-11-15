@@ -1,4 +1,5 @@
 "use server"
+import { client } from '@/lib/prisma';
 import Stripe from 'stripe';
 
 
@@ -45,5 +46,18 @@ export const onTransferCommission = async (destination : string) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return {status : 400}
+    }
+}
+
+
+export const onGetActiveSubscription = async (groupid : string) => {
+    try {
+        const subscription = await client.subscription.findUnique({
+            where : {
+                groupId : groupid
+            }
+        })
+    } catch (error) {
+        
     }
 }
