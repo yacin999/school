@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { onGetExploreGroup, onGetGroupInfo, onSearchGroups, onUpDateGroupSettings } from "@/actions/groups"
-import { supabaseClient } from "@/lib/utils"
+import { supabaseClient, validateURLString } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
@@ -363,4 +363,15 @@ export const useGroupInfo = () => {
     group
   }
 
+}
+
+
+export const useGroupAbout = (
+  description : string | null,
+  jsonDescription : string | null,
+  htmlDescription : string | null,
+  currentMedia : string,
+  groupid : string
+) => {
+  const mediaType = validateURLString(currentMedia)
 }

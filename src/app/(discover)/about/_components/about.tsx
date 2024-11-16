@@ -1,4 +1,4 @@
-import { useGroupInfo } from '@/hooks/groups'
+import { useGroupAbout, useGroupInfo } from '@/hooks/groups'
 import React from 'react'
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 
 const AboutGroup = ({ userid, groupid }: Props) => {
     const { group } = useGroupInfo()
+    const { } = useGroupAbout()
   return (
     <div></div>
   )
