@@ -52,12 +52,19 @@ export const onTransferCommission = async (destination : string) => {
 
 export const onGetActiveSubscription = async (groupid : string) => {
     try {
-        const subscription = await client.subscription.findUnique({
+        const subscription = await client.subscription.findFirst({
             where : {
-                groupId : groupid
+                groupId : groupid,
+                active : true
             }
         })
+
+        if (subscription) {
+            return {status : 200, subscription}
+        }
+
     } catch (error) {
-        
+        console.log("error from onGetActiveSubscription :", error)
+        return { status : 404 }
     }
 }

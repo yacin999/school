@@ -1,6 +1,7 @@
+import { onAuthenticatedUser } from '@/actions/auth'
 import { onGetGroupInfo } from '@/actions/groups'
 import { onGetActiveSubscription } from '@/actions/payments'
-import { QueryClient } from '@tanstack/react-query'
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
 
 type Props = {
@@ -19,8 +20,16 @@ const Page = async ({ params }: Props) => {
         queryKey : ["active-subscription"],
         queryFn : () => onGetActiveSubscription(params.groupid)
     })
+
+    const userid = await onAuthenticatedUser()
     return (
-    <div>Page</div>
+        <HydrationBoundary state={dehydrate(query)}>
+            <div className='pt-36 pb-10 container grid grid-cols-1 lg:grid-cols-3 gap-x-10'>
+                <div className='col-span-1 lg:col-span-2'>
+                    <AboutGroup userid={userid.id!} groupid={params.groupid} />
+                </div>
+            </div>
+        </HydrationBoundary>
   )
 }
 
