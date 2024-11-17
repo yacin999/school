@@ -5,7 +5,7 @@ import { onOnline } from "@/redux/slices/online-member-slice"
 import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useEffect, useLayoutEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { JSONContent } from "novel"
 import { useForm } from "react-hook-form"
@@ -373,5 +373,21 @@ export const useGroupAbout = (
   currentMedia : string,
   groupid : string
 ) => {
+  const editor = useRef<HTMLFormElement | null>(null)
   const mediaType = validateURLString(currentMedia)
+  const [activeMedia, setActiveMedia] = useState<
+  | {
+      url : string | undefined
+      type : string
+    }
+  | undefined
+  >(
+    mediaType.type === "IMAGE" ? {
+      url : currentMedia,
+      type : mediaType.type
+    } : { ...mediaType }
+  )
+
+  const jsonContent = jsonDescription !== null ? JSON.parse(jsonDescription as string) : undefined
+
 }
