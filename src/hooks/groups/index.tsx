@@ -390,4 +390,48 @@ export const useGroupAbout = (
 
   const jsonContent = jsonDescription !== null ? JSON.parse(jsonDescription as string) : undefined
 
+  const [onJsonDescription, setJsonDescription] = useState<JSONContent | undefined>(jsonContent)
+
+  const [onDescription, setOnDescription] = useState<string | undefined(description || undefined)
+
+  const [onHtmlDescription, setOnHtmlDescription] = useState<string | undefined>(htmlDescription || undefined)
+
+  const onSetDescription = () => {
+    const JsonContent = JSON.stringify(onJsonDescription)
+    setValue("jsondescription", JsonContent)
+    setValue("description", onDescription)
+    setValue("htmldescription", onHtmlDescription)
+  }
+
+  const {
+    setValue,
+    formState : {errors},
+    handleSubmit
+  } = useForm<z.infer<typeof GroupSettingsSchema>>({
+    resolver : zodResolver(GroupSettingsSchema)
+  })
+
+  useEffect(() => {
+    onSetDescription()
+  
+    return () => {
+      onSetDescription()
+    }
+  }, [onJsonDescription, onDescription])
+
+  const onEditTextEditor = (event : Event) => {
+    if (editor.current) {
+      !editor.current.contains(event.target as Node | null) ? setOnEditDescription(false) : setOnEditDescription(true)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", onEditTextEditor, false)
+  
+    return () => {
+      document.removeEventListener("click", onEditTextEditor, false)
+    }
+  }, [])
+  
+  
 }
