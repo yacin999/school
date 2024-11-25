@@ -1,6 +1,7 @@
 import React from 'react'
 
 type Props = {
+    gallery : string[]
     onActive(media : {url : string | undefined; type : string}) : void
     userid : string
     groupUserid : string
