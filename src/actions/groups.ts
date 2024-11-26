@@ -570,6 +570,7 @@ export const onUpdateGroupGallery = async (
         message: "Looks like your gallery has the maximum media allowed",
       }
     } catch (error) {
+        console.log("Error from onUpdateGroupGallery :", error)
       return { status: 400, message: "Looks like something went wrong" }
     }
   }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onGetExploreGroup, onGetGroupInfo, onSearchGroups, onUpDateGroupSettings } from "@/actions/groups"
+import { onGetExploreGroup, onGetGroupInfo, onSearchGroups, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
 import { supabaseClient, validateURLString } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
