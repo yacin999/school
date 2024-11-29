@@ -2,6 +2,7 @@
 
 import { Loader } from "@/components/global/loader"
 import { Button } from "@/components/ui/button"
+import { useJoinGroup } from "@/hooks/payment"
 
 import { CardElement } from "@stripe/react-stripe-js"
 
