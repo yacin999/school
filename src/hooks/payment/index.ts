@@ -1,8 +1,8 @@
 "use client"
 
 
-import { onCreateNewGroup } from "@/actions/groups";
-import { onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
+import { onCreateNewGroup, onGetGroupChannels, onJoinGroup } from "@/actions/groups";
+import { onGetActiveSubscription, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -118,3 +118,27 @@ export const usePayments = (userId : string, affiliate : boolean, stripeId? : st
         creatingIntent
     }
 }
+
+
+export const useActiveGroupSubscription = (groupId: string) => {
+    const { data } = useQuery({
+      queryKey: ["active-subscription"],
+      queryFn: () => onGetActiveSubscription(groupId),
+    })
+  
+    return { data }
+}
+
+export const useJoinFree = (groupid: string) => {
+    const router = useRouter()
+    const onJoinFreeGroup = async () => {
+      const member = await onJoinGroup(groupid)
+      if (member?.status === 200) {
+        const channels = await onGetGroupChannels(groupid)
+        router.push(`/group/${groupid}/channel/${channels?.channels?.[0].id}`)
+      }
+    }
+  
+    return { onJoinFreeGroup }
+  }
+  

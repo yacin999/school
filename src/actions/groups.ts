@@ -575,3 +575,28 @@ export const onUpdateGroupGallery = async (
     }
   }
   
+
+export const onJoinGroup = async (groupid: string) => {
+try {
+    const user = await onAuthenticatedUser()
+    const member = await client.group.update({
+    where: {
+        id: groupid,
+    },
+    data: {
+        member: {
+        create: {
+            userId: user.id,
+        },
+        },
+    },
+    })
+    if (member) {
+    return { status: 200 }
+    }
+} catch (error) {
+    console.log("Error from onJoinGroup action :", error)
+    return { status: 404 }
+}
+}
+  
