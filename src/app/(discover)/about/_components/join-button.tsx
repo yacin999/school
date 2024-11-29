@@ -1,5 +1,7 @@
 import { GlassModal } from "@/components/global/glass-modal"
+import StripeElements from "@/components/global/stripe/elements"
 import { Button } from "@/components/ui/button"
+import { useActiveGroupSubscription, useJoinFree } from "@/hooks/payment"
 
 type JoinButtonProps = {
   owner: boolean
