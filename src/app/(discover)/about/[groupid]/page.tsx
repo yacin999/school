@@ -4,6 +4,7 @@ import { onGetActiveSubscription } from '@/actions/payments'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
 import AboutGroup from '../_components/about'
+import GroupSideWidget from '@/components/global/group-side-widget'
 
 type Props = {
     params : { groupid : string }
