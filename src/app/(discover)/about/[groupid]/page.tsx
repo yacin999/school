@@ -3,6 +3,7 @@ import { onGetGroupInfo } from '@/actions/groups'
 import { onGetActiveSubscription } from '@/actions/payments'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
+import AboutGroup from '../_components/about'
 
 type Props = {
     params : { groupid : string }
