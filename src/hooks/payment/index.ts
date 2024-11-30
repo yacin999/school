@@ -1,13 +1,13 @@
 "use client"
 
 
-import { onCreateNewGroup, onGetGroupChannels, onJoinGroup } from "@/actions/groups";
+import { onCreateNewGroup, onGetGroupChannels, onGetGroupSubscriptions, onJoinGroup } from "@/actions/groups";
 import { onGetActiveSubscription, onGetGroupSubscriptionPaymentIntent, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe, StripeCardElement } from "@stripe/stripe-js";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -189,4 +189,29 @@ export const useJoinGroup = (groupid: string) => {
   
     return { onPayToJoin, isPending }
 }
+
+export const useAllSubscriptions = (groupid: string) => {
+  const { data } = useQuery({
+    queryKey: ["group-subscriptions"],
+    queryFn: () => onGetGroupSubscriptions(groupid),
+  })
+
+  const client = useQueryClient()
+
+  const { mutate } = useMutation({
+    mutationFn: (data: { id: string }) => onActivateSubscription(data.id),
+    onSuccess: (data) =>
+      toast(data?.status === 200 ? "Success" : "Error", {
+        description: data?.message,
+      }),
+    onSettled: async () => {
+      return await client.invalidateQueries({
+        queryKey: ["group-subscriptions"],
+      })
+    },
+  })
+
+  return { data, mutate }
+}
+
   
