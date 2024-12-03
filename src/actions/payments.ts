@@ -110,4 +110,80 @@ export const onGetGroupSubscriptionPaymentIntent = async (groupid: string) => {
         console.log("Error from onGetGroupSubscriptionPaymentIntent ", error)
       return { status: 400, message: "Failed to load form" }
     }
+}
+
+
+export const onActivateSubscription = async (id: string) => {
+  try {
+    const status = await client.subscription.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        active: true,
+      },
+    })
+    if (status) {
+      if (status.active) {
+        return { status: 200, message: "Plan already active" }
+      }
+      if (!status.active) {
+        const current = await client.subscription.findFirst({
+          where: {
+            active: true,
+          },
+          select: {
+            id: true,
+          },
+        })
+        if (current && current.id) {
+          const deactivate = await client.subscription.update({
+            where: {
+              id: current.id,
+            },
+            data: {
+              active: false,
+            },
+          })
+
+          if (deactivate) {
+            const activateNew = await client.subscription.update({
+              where: {
+                id,
+              },
+              data: {
+                active: true,
+              },
+            })
+
+            if (activateNew) {
+              return {
+                status: 200,
+                message: "New plan activated",
+              }
+            }
+          }
+        } else {
+          const activateNew = await client.subscription.update({
+            where: {
+              id,
+            },
+            data: {
+              active: true,
+            },
+          })
+
+          if (activateNew) {
+            return {
+              status: 200,
+              message: "New plan activated",
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error)
+    return { status: 400, message: "Oops something went wrong" }
   }
+}

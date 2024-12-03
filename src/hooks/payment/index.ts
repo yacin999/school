@@ -2,7 +2,7 @@
 
 
 import { onCreateNewGroup, onGetGroupChannels, onGetGroupSubscriptions, onJoinGroup } from "@/actions/groups";
-import { onGetActiveSubscription, onGetGroupSubscriptionPaymentIntent, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
+import { onActivateSubscription, onGetActiveSubscription, onGetGroupSubscriptionPaymentIntent, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
