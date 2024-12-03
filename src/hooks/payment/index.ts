@@ -4,6 +4,7 @@
 import { onCreateNewGroup, onGetGroupChannels, onGetGroupSubscriptions, onJoinGroup } from "@/actions/groups";
 import { onActivateSubscription, onGetActiveSubscription, onGetGroupSubscriptionPaymentIntent, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
+import { CreateGroupSubscriptionSchema } from "@/components/forms/subscription/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe, StripeCardElement } from "@stripe/stripe-js";
@@ -212,6 +213,40 @@ export const useAllSubscriptions = (groupid: string) => {
   })
 
   return { data, mutate }
+}
+
+
+export const useGroupSubscription = (groupid: string) => {
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<z.infer<typeof CreateGroupSubscriptionSchema>>({
+    resolver: zodResolver(CreateGroupSubscriptionSchema),
+  })
+
+  const client = useQueryClient()
+
+  const { mutate, isPending, variables } = useMutation({
+    mutationFn: (data: { price: string }) =>
+      onCreateNewGroupSubscription(groupid, data.price),
+    onMutate: () => reset(),
+    onSuccess: (data) =>
+      toast(data?.status === 200 ? "Success" : "Error", {
+        description: data?.message,
+      }),
+    onSettled: async () => {
+      return await client.invalidateQueries({
+        queryKey: ["group-subscriptions"],
+      })
+    },
+  })
+
+  const onCreateNewSubscription = handleSubmit(async (values) =>
+    mutate({ ...values }),
+  )
+  return { register, errors, onCreateNewSubscription, isPending, variables }
 }
 
   
