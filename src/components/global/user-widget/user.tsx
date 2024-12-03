@@ -14,7 +14,7 @@ import Link from 'next/link'
 
 
 type Props = {
-    image: string
+    image: string | undefined
     groupid?: string
     userid?: string
 }

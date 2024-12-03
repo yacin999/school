@@ -187,3 +187,30 @@ export const onActivateSubscription = async (id: string) => {
     return { status: 400, message: "Oops something went wrong" }
   }
 }
+
+export const onCreateNewGroupSubscription = async (
+  groupid: string,
+  price: string,
+) => {
+  try {
+    const subscription = await client.group.update({
+      where: {
+        id: groupid,
+      },
+      data: {
+        subscription: {
+          create: {
+            price: parseInt(price),
+          },
+        },
+      },
+    })
+
+    if (subscription) {
+      return { status: 200, message: "Subscription created" }
+    }
+  } catch (error) {
+    console.log(" Error from onCreateNewGroupSubscription :", error)
+    return { status: 400, message: "Oops something went wrong" }
+  }
+}

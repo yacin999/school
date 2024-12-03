@@ -2,7 +2,7 @@
 
 
 import { onCreateNewGroup, onGetGroupChannels, onGetGroupSubscriptions, onJoinGroup } from "@/actions/groups";
-import { onActivateSubscription, onGetActiveSubscription, onGetGroupSubscriptionPaymentIntent, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
+import { onActivateSubscription, onCreateNewGroupSubscription, onGetActiveSubscription, onGetGroupSubscriptionPaymentIntent, onGetSripeClientSecret, onTransferCommission } from "@/actions/payments";
 import { CreateGroupSchema } from "@/components/forms/create-group/schema";
 import { CreateGroupSubscriptionSchema } from "@/components/forms/subscription/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
