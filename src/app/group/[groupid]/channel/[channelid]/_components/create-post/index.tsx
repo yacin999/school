@@ -1,6 +1,8 @@
 "use client"
 
 
+import { PostContent } from "@/components/global/post-content";
+import { SimpleModal } from "@/components/global/simple-model";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardDescription } from "@/components/ui/card"
 import { useChannelPage } from "@/hooks/channels";
