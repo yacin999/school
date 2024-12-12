@@ -9,7 +9,7 @@ import { Interactions } from "./interactions"
 
 type PostCardProps = {
   userimage?: string
-  username?: string
+  username?: string | null
   html: string
   channelname: string
   title: string

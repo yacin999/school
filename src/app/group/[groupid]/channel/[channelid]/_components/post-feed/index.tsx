@@ -3,6 +3,8 @@
 import { useChannelPage } from "@/hooks/channels"
 
 import InfiniteScrollObserver from "@/components/global/infinite-scroll"
+import { PostCard } from "./post-card"
+import { PaginatedPosts } from "../paginates-posts"
 
 
 type PostFeedProps = {
