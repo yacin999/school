@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { PostAuthor } from "./post-auther"
+import { Interactions } from "./interactions"
 
 
 type PostCardProps = {

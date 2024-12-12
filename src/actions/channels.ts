@@ -234,3 +234,43 @@ export const onCreateChannelPost = async (
   }
 }
 
+
+
+export const onLikeChannelPost = async (postid: string, likeid: string) => {
+  try {
+    const user = await onAuthenticatedUser()
+
+    const liked = await client.like.findFirst({
+      where: {
+        id: likeid,
+        userId: user.id!,
+      },
+    })
+
+    if (liked) {
+      await client.like.delete({
+        where: {
+          id: likeid,
+          userId: user.id,
+        },
+      })
+
+      return { status: 200, message: "You unliked this post" }
+    }
+
+    const like = await client.like.create({
+      data: {
+        id: likeid,
+        postId: postid,
+        userId: user.id!,
+      },
+    })
+
+    if (like) return { status: 200, message: "You liked this post" }
+
+    return { status: 404, message: "Post not found!" }
+  } catch (error) {
+    console.log(error)
+    return { status: 400, message: "Something went wrong" }
+  }
+}

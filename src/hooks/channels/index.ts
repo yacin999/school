@@ -1,4 +1,4 @@
-import { onCreateChannelPost, onDeleteChannel, onGetChannelInfo, onUpdateChannelInfo } from "@/actions/channels"
+import { onCreateChannelPost, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
 import { CreateChannelPost } from "@/components/global/post-content/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -223,4 +223,27 @@ export const useCreateChannelPost = (channelid: string) => {
     isPending,
     onCreatePost,
   }
+}
+
+export const useLikeChannelPost = (postid: string) => {
+  const client = useQueryClient()
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: { likeid: string }) =>
+      onLikeChannelPost(postid, data.likeid),
+    onSuccess: (data) => {
+      toast(data.status === 200 ? "Success" : "Error", {
+        description: data.message,
+      })
+    },
+    onSettled: async () => {
+      await client.invalidateQueries({
+        queryKey: ["unique-post"],
+      })
+      return await client.invalidateQueries({
+        queryKey: ["channel-info"],
+      })
+    },
+  })
+
+  return { mutate, isPending }
 }
