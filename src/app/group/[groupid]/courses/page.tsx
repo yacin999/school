@@ -1,3 +1,4 @@
+import { onGetGroupCourses } from '@/actions/courses'
 import { QueryClient } from '@tanstack/react-query'
 import React from 'react'
 
