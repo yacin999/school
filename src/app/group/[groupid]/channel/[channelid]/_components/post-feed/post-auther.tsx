@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type PostAuthorProps = {
   image?: string
-  username?: string
+  username?: string | null
   channel: string
 }
 
