@@ -1,4 +1,4 @@
-import { onCreateGroupCourse } from "@/actions/courses"
+import { onCreateGroupCourse, onGetGroupCourses } from "@/actions/courses"
 import { onGetGroupInfo } from "@/actions/groups"
 import { CreateCourseSchema } from "@/components/global/create-course/schema"
 import { upload } from "@/lib/uploadcare"
@@ -101,5 +101,14 @@ export const useCreateCourse = (groupid: string) => {
       setValue,
       data,
     }
-  }
+}
+
+export const useCourses = (groupid: string) => {
+  const { data } = useQuery({
+    queryKey: ["group-courses"],
+    queryFn: () => onGetGroupCourses(groupid),
+  })
+
+  return { data }
+}
   
