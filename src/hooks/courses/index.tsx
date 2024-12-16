@@ -1,4 +1,4 @@
-import { onCreateGroupCourse, onGetGroupCourses } from "@/actions/courses"
+import { onCreateGroupCourse, onGetCourseModules, onGetGroupCourses } from "@/actions/courses"
 import { onGetGroupInfo } from "@/actions/groups"
 import { CreateCourseSchema } from "@/components/global/create-course/schema"
 import { upload } from "@/lib/uploadcare"

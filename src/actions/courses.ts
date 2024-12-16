@@ -71,4 +71,40 @@ export const onCreateGroupCourse = async (
         console.log("Error from onCreateGroupCourse ", error)
       return { status: 400, message: "Oops! something went wrong" }
     }
+}
+
+
+export const onGetCourseModules = async (courseId: string) => {
+  try {
+    const modules = await client.module.findMany({
+      where: {
+        courseId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        section: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+      },
+    })
+
+    if (modules && modules.length > 0) {
+      return { status: 200, modules }
+    }
+
+    return {
+      status: 404,
+      message: "No modules found",
+    }
+  } catch (error) {
+    console.log("Error from onGetCourseModules action", error)
+    return {
+      status: 400,
+      message: "Oops! something went wrong",
+    }
   }
+}
