@@ -7,7 +7,7 @@ import {
   
   type GlobalAccordionProps = {
     id: string
-    title: string
+    title: string | undefined
     ref?: RefObject<HTMLButtonElement>
     onEdit?(): void
     edit?: boolean

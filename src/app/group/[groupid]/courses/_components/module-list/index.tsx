@@ -55,7 +55,7 @@ const CourseModuleList = ({ courseId, groupid }: Props) => {
             onEdit={() => onEditModule(module.id)}
             id={module.id}
             key={module.id}
-            title={isPending ? variables?.content! : module.title}
+            title={isPending ? variables?.content : module.title}
           >
             <AccordionContent className="flex flex-col gap-y-2 px-3">
               {module.section.length ? (

@@ -1,11 +1,10 @@
-import { onGetCourseModules } from "@/actions/course"
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query"
-import { CreateCourseModule } from "../_components/create-module"
 import CourseModuleList from "../_components/module-list"
+import { onGetCourseModules } from "@/actions/courses"
 
 type CourseLayoutProps = {
   params: {
