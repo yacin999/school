@@ -1,4 +1,5 @@
 "use client"
+import { GlobalAccordion } from "@/components/global/accordion"
 import IconRenderer from "@/components/global/icon-renderer"
 import { AccordionContent } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
