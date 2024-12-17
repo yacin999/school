@@ -209,3 +209,40 @@ export const onCreateModuleSection = async (
     return { status: 400, message: "Oops! something went wrong" }
   }
 }
+
+export const onCreateCourseModule = async (
+  courseId: string,
+  name: string,
+  moduleId: string,
+) => {
+  try {
+    const courseModule = await client.course.update({
+      where: {
+        id: courseId,
+      },
+      data: {
+        modules: {
+          create: {
+            title: name,
+            id: moduleId,
+          },
+        },
+      },
+    })
+
+    if (courseModule) {
+      return { status: 200, message: "Module successfully create" }
+    }
+
+    return {
+      status: 404,
+      message: "No courses found",
+    }
+  } catch (error) {
+    console.log("Error from onCreateCourseModule :", error)
+    return {
+      status: 400,
+      message: "Oops! something went wrong",
+    }
+  }
+}
