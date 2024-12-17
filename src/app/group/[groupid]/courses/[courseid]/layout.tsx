@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query"
 import CourseModuleList from "../_components/module-list"
 import { onGetCourseModules } from "@/actions/courses"
+import { CreateCourseModule } from "../_components/create-module"
 
 type CourseLayoutProps = {
   params: {

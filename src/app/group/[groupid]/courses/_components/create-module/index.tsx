@@ -2,6 +2,7 @@
 
 import { GlobalAccordion } from "@/components/global/accordion"
 import { Button } from "@/components/ui/button"
+import { useCreateModule } from "@/hooks/courses"
 import { Plus, PlusCircle } from "lucide-react"
 
 type CreateCourseModuleProps = {
