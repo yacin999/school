@@ -4,6 +4,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query"
+import SectionNavBar from "./_components/section-navbar"
 
 type CourseContentPageLayout = {
   children: React.ReactNode

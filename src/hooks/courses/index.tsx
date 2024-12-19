@@ -1,4 +1,4 @@
-import { onCreateCourseModule, onCreateGroupCourse, onCreateModuleSection, onGetCourseModules, onGetGroupCourses, onUpdateModule, onUpdateSection } from "@/actions/courses"
+import { onCreateCourseModule, onCreateGroupCourse, onCreateModuleSection, onGetCourseModules, onGetGroupCourses, onGetSectionInfo, onUpdateModule, onUpdateSection } from "@/actions/courses"
 import { onGetGroupInfo } from "@/actions/groups"
 import { CreateCourseSchema } from "@/components/global/create-course/schema"
 import { upload } from "@/lib/uploadcare"
@@ -307,4 +307,30 @@ export const useCreateModule = (courseId: string, groupid: string) => {
     })
 
   return { variables, isPending, onCreateModule, data }
+}
+
+
+export const useSectionNavBar = (sectionid: string) => {
+  const { data } = useQuery({
+    queryKey: ["section-info"],
+    queryFn: () => onGetSectionInfo(sectionid),
+  })
+
+  const client = useQueryClient()
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: () => onUpdateSection(sectionid, "COMPLETE", ""),
+    onSuccess: (data) => {
+      toast(data.status === 200 ? "Success" : "Error", {
+        description: data.message,
+      })
+    },
+    onSettled: async () => {
+      return await client.invalidateQueries({
+        queryKey: ["course-modules"],
+      })
+    },
+  })
+
+  return { data, mutate, isPending }
 }
