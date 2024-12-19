@@ -246,3 +246,24 @@ export const onCreateCourseModule = async (
     }
   }
 }
+
+
+
+export const onGetSectionInfo = async (sectionid: string) => {
+  try {
+    const section = await client.section.findUnique({
+      where: {
+        id: sectionid,
+      },
+    })
+
+    if (section) {
+      return { status: 200, section }
+    }
+
+    return { status: 404, message: "Course section not found" }
+  } catch (error) {
+    console.log("Error from onGetSectionInfo", error)
+    return { status: 400, message: "Oops! something went wrong" }
+  }
+}
