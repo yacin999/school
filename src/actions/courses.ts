@@ -267,3 +267,33 @@ export const onGetSectionInfo = async (sectionid: string) => {
     return { status: 400, message: "Oops! something went wrong" }
   }
 }
+
+
+export const onUpdateCourseSectionContent = async (
+  sectionid: string,
+  html: string,
+  json: string,
+  content: string,
+) => {
+  try {
+    const section = await client.section.update({
+      where: {
+        id: sectionid,
+      },
+      data: {
+        JsonContent: json,
+        htmlContent: html,
+        content,
+      },
+    })
+
+    if (section) {
+      return { status: 200, message: "Course content added" }
+    }
+
+    return { status: 404, message: "Section not found!" }
+  } catch (error) {
+    console.log("Error from onUpdateCourseSectionContent :", error)
+    return { status: 400, message: "Oop! something went wrong" }
+  }
+}

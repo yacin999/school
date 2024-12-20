@@ -3,6 +3,7 @@ import { HtmlParser } from "@/components/global/html-parser"
 import { Loader } from "@/components/global/loader"
 import BlockTextEditor from "@/components/global/rich-text-editor"
 import { Button } from "@/components/ui/button"
+import { useCourseContent, useCourseSectionInfo } from "@/hooks/courses"
 
 type CourseContentFormProps = {
   sectionid: string
@@ -44,6 +45,7 @@ export const CourseContentForm = ({
         name="jsoncontent"
         errors={errors}
         setContent={setJsonDescription || undefined}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         content={JSON.parse(data?.section?.JsonContent!)}
         htmlContent={data?.section?.htmlContent || undefined}
         setHtmlContent={setOnHtmlDescription}
@@ -60,6 +62,6 @@ export const CourseContentForm = ({
       )}
     </form>
   ) : (
-    <HtmlParser html={data?.section?.htmlContent!} />
+    <HtmlParser html={data?.section?.htmlContent as string} />
   )
 }
