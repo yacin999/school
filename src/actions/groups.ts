@@ -600,3 +600,21 @@ try {
 }
 }
   
+
+export const onGetAffiliateLink = async (groupid: string) => {
+    try {
+      const affiliate = await client.affiliate.findUnique({
+        where: {
+          groupId: groupid,
+        },
+        select: {
+          id: true,
+        },
+      })
+  
+      return { status: 200, affiliate }
+    } catch (error) {
+        console.log("Error from onGetAffiliateLink", error)
+      return { status: 400, message: "Oops! soomething went wrong" }
+    }
+  }

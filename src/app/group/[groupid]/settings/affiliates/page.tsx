@@ -1,3 +1,4 @@
+import { onGetAffiliateLink } from "@/actions/groups"
 import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 
 type Props = {
