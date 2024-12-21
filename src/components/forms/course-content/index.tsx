@@ -8,7 +8,7 @@ import { useCourseContent, useCourseSectionInfo } from "@/hooks/courses"
 type CourseContentFormProps = {
   sectionid: string
   userid: string
-  groupid: string
+  groupid: string | undefined
 }
 
 export const CourseContentForm = ({
