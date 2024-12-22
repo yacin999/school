@@ -617,4 +617,25 @@ export const onGetAffiliateLink = async (groupid: string) => {
         console.log("Error from onGetAffiliateLink", error)
       return { status: 400, message: "Oops! soomething went wrong" }
     }
+}
+
+
+
+export const onVerifyAffilateLink = async (id: string) => {
+    try {
+      const link = await client.affiliate.findUnique({
+        where: {
+          id,
+        },
+      })
+  
+      if (link) {
+        return { status: 200 }
+      }
+  
+      return { status: 404 }
+    } catch (error) {
+        console.log("Error from onVerifyAffiliateLink ", error)
+      return { status: 400 }
+    }
   }
