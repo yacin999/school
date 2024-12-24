@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import axios from "axios"
 
 
 
@@ -249,4 +250,24 @@ export const useGroupSubscription = (groupid: string) => {
   return { register, errors, onCreateNewSubscription, isPending, variables }
 }
 
-  
+
+export const useStripeConnect = (groupid: string) => {
+  const [onStripeAccountPending, setOnStripeAccountPending] =
+    useState<boolean>(false)
+
+  const onStripeConnect = async () => {
+    try {
+      setOnStripeAccountPending(true)
+      const account = await axios.get(`/api/stripe/connect?groupid=${groupid}`)
+      if (account) {
+        setOnStripeAccountPending(false)
+        if (account) {
+          window.location.href = account.data.url
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return { onStripeConnect, onStripeAccountPending }
+}

@@ -2,6 +2,7 @@
 
 import { Loader } from "@/components/global/loader"
 import { Button } from "@/components/ui/button"
+import { useStripeConnect } from "@/hooks/payment"
 
 type StripeConnectProps = {
   connected: boolean
