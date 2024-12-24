@@ -1,6 +1,7 @@
 "use server"
 import { client } from '@/lib/prisma';
 import Stripe from 'stripe';
+import { onAuthenticatedUser } from './auth';
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -212,5 +213,25 @@ export const onCreateNewGroupSubscription = async (
   } catch (error) {
     console.log(" Error from onCreateNewGroupSubscription :", error)
     return { status: 400, message: "Oops something went wrong" }
+  }
+}
+
+export const onGetStripeIntegration = async () => {
+  try {
+    const user = await onAuthenticatedUser()
+    const stripeId = await client.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      select: {
+        stripeId: true,
+      },
+    })
+
+    if (stripeId) {
+      return stripeId.stripeId
+    }
+  } catch (error) {
+    console.log(error)
   }
 }

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { CheckCircle2Icon, CloudIcon } from "lucide-react"
+import { StripeConnect } from "../connect"
 
 type Props = {
   name: "stripe"
