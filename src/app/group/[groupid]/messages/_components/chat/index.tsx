@@ -1,6 +1,5 @@
 "use client"
 
-import { useChatWindow } from "@/hooks/groups"
 import { useAppSelector } from "@/redux/store"
 import { ChatBubble } from "../chat-bubble"
 
