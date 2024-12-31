@@ -2,9 +2,10 @@
 
 import { useAppSelector } from "@/redux/store"
 import { ChatBubble } from "../chat-bubble"
+import { useChatWindow } from "@/hooks/groups"
 
 type ChatWindowProps = {
-  recieverid: string
+  recieverid: string 
   userid: string
 }
 

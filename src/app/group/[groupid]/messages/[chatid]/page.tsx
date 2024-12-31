@@ -26,6 +26,7 @@ const MemberChatPage = async ({ params }: { params: { chatid: string } }) => {
         <div className="bg-themeBlack rounded-2xl p-5">
           <div className="flex gap-x-2">
             <Avatar className="w-20 h-20">
+              {/* eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain*/}
               <AvatarImage src={member?.member?.User?.image!} alt="User" />
               <AvatarFallback>
                 <User />
@@ -36,6 +37,7 @@ const MemberChatPage = async ({ params }: { params: { chatid: string } }) => {
             </h3>
           </div>
         </div>
+        {/*  eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain*/}
         <ChatWindow userid={user.id!} recieverid={member?.member?.User?.id!} />
         <HuddlesForm recieverid={member?.member?.User?.id!} />
       </div>
