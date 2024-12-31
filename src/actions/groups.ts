@@ -638,4 +638,51 @@ export const onVerifyAffilateLink = async (id: string) => {
         console.log("Error from onVerifyAffiliateLink ", error)
       return { status: 400 }
     }
+}
+
+
+export const onGetUserFromMembership = async (membershipid: string) => {
+    try {
+      const member = await client.members.findUnique({
+        where: {
+          id: membershipid,
+        },
+        select: {
+          User: true,
+        },
+      })
+  
+      if (member) {
+        return { status: 200, member }
+      }
+    } catch (error) {
+        console.log("Error from onGetUserMembership action :", error)
+      return { status: 400 }
+    }
+}
+
+
+export const onGetAllUserMessages = async (recieverId: string) => {
+    try {
+      const sender = await onAuthenticatedUser()
+      const messages = await client.message.findMany({
+        where: {
+          senderid: {
+            in: [sender.id!, recieverId],
+          },
+          recieverId: {
+            in: [sender.id!, recieverId],
+          },
+        },
+      })
+  
+      if (messages && messages.length > 0) {
+        return { status: 200, messages }
+      }
+  
+      return { status: 404 }
+    } catch (error) {
+        console.log("Error from onGetAllUserMessages :", error)
+      return { status: 400, message: "Oops something went wrong" }
+    }
   }

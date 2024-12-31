@@ -36,6 +36,7 @@ export const GroupChatMenu = ({ groupid }: GroupChatMenuProps) => {
                   ),
               )}
               <Avatar>
+                {/* eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain*/}
                 <AvatarImage src={member.User?.image!} alt="user" />
                 <AvatarFallback>
                   <User />

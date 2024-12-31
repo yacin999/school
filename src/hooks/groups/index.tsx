@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onGetExploreGroup, onGetGroupInfo, onSearchGroups, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
+import { onGetAllGroupMembers, onGetExploreGroup, onGetGroupInfo, onSearchGroups, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
 import { supabaseClient, validateURLString } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
@@ -14,7 +14,7 @@ import { z } from "zod"
 import { GroupSettingsSchema } from "@/components/forms/group-settings/schema"
 import { toast } from "sonner"
 import { upload } from "@/lib/uploadcare"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { onClearList, onInfiniteScroll } from "@/redux/slices/infinite-scroll-slice"
 import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
 
@@ -582,4 +582,72 @@ export const useMediaGallery = (groupid: string) => {
     onUpdateGallery,
     isPending,
   }
+}
+
+
+export const useGroupChat = (groupid: string) => {
+  const { data } = useQuery({
+    queryKey: ["member-chats"],
+    queryFn: () => onGetAllGroupMembers(groupid),
+  })
+
+  const pathname = usePathname()
+
+  return { data, pathname }
+}
+
+export const useChatWindow = (recieverid: string) => {
+  const { data, isFetched } = useQuery({
+    queryKey: ["user-messages"],
+    queryFn: () => onGetAllUserMessages(recieverid),
+  })
+
+  const messageWindowRef = useRef<HTMLDivElement | null>(null)
+
+  const onScrollToBottom = () => {
+    messageWindowRef.current?.scroll({
+      top: messageWindowRef.current.scrollHeight,
+      left: 0,
+      behavior: "smooth",
+    })
+  }
+
+  useEffect(() => {
+    supabaseClient
+      .channel("table-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "Message",
+        },
+        async (payload) => {
+          dispatch(
+            onChat({
+              chat: [
+                ...(payload.new as {
+                  id: string
+                  message: string
+                  createdAt: Date
+                  senderid: string | null
+                  recieverId: string | null
+                }[]),
+              ],
+            }),
+          )
+        },
+      )
+      .subscribe()
+  }, [])
+
+  useEffect(() => {
+    onScrollToBottom()
+  }, [messageWindowRef])
+
+  const dispatch: AppDispatch = useDispatch()
+
+  if (isFetched && data?.messages) dispatch(onChat({ chat: data.messages }))
+
+  return { messageWindowRef }
 }
