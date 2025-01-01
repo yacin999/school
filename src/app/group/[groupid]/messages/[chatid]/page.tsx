@@ -8,6 +8,7 @@ import {
 import { User } from "lucide-react"
 import { ChatWindow } from "../_components/chat"
 import { onGetAllUserMessages, onGetUserFromMembership } from "@/actions/groups"
+import { HuddlesForm } from "@/components/forms/huddles"
 
 const MemberChatPage = async ({ params }: { params: { chatid: string } }) => {
   const query = new QueryClient()
@@ -39,6 +40,7 @@ const MemberChatPage = async ({ params }: { params: { chatid: string } }) => {
         </div>
         {/*  eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain*/}
         <ChatWindow userid={user.id!} recieverid={member?.member?.User?.id!} />
+        {/* eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain */}
         <HuddlesForm recieverid={member?.member?.User?.id!} />
       </div>
     </HydrationBoundary>
