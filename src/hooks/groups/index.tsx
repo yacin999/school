@@ -18,6 +18,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { onClearList, onInfiniteScroll } from "@/redux/slices/infinite-scroll-slice"
 import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
 import { onChat } from "@/redux/slices/chats-slices"
+import { SendNewMessageSchema } from "@/components/forms/huddles/schema"
 
 export const useGroupChatOnline = (userid : string) => {
     const dispatch : AppDispatch = useDispatch()
@@ -651,4 +652,29 @@ export const useChatWindow = (recieverid: string) => {
   if (isFetched && data?.messages) dispatch(onChat({ chat: data.messages }))
 
   return { messageWindowRef }
+}
+
+
+export const useSendMessage = (recieverId: string) => {
+  const { register, reset, handleSubmit } = useForm<
+    z.infer<typeof SendNewMessageSchema>
+  >({
+    resolver: zodResolver(SendNewMessageSchema),
+  })
+
+  const { mutate } = useMutation({
+    mutationKey: ["send-new-message"],
+    mutationFn: (data: { messageid: string; message: string }) =>
+      onSendMessage(recieverId, data.messageid, data.message),
+    onMutate: () => reset(),
+    onSuccess: () => {
+      return
+    },
+  })
+
+  const onSendNewMessage = handleSubmit(async (values) =>
+    mutate({ messageid: v4(), message: values.message }),
+  )
+
+  return { onSendNewMessage, register }
 }

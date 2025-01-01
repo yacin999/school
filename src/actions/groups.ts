@@ -685,4 +685,37 @@ export const onGetAllUserMessages = async (recieverId: string) => {
         console.log("Error from onGetAllUserMessages :", error)
       return { status: 400, message: "Oops something went wrong" }
     }
+}
+
+
+export const onSendMessage = async (
+    recieverid: string,
+    messageid: string,
+    message: string,
+  ) => {
+    try {
+      const user = await onAuthenticatedUser()
+      const newMessage = await client.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          message: {
+            create: {
+              id: messageid,
+              recieverId: recieverid,
+              message,
+            },
+          },
+        },
+      })
+  
+      if (newMessage) {
+        return { status: 200 }
+      }
+    } catch (error) {
+        console.log("Error from onSendMessage action :", error)
+      return { status: 400 }
+    }
   }
+  
