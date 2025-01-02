@@ -1,4 +1,5 @@
 import { onAuthenticatedUser } from "@/actions/auth"
+import { onGetPostComments, onGetPostInfo } from "@/actions/groups"
 
 import GroupSideWidget from "@/components/global/group-side-widget"
 import {
