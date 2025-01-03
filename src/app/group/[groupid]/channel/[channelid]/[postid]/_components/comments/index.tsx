@@ -1,7 +1,5 @@
 "use client"
 
-import { useComments, useReply } from "@/hooks/channels"
-import { UserComment } from "./user-comment"
 
 type PostCommentsProps = {
   postid: string
