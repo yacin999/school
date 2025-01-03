@@ -1,4 +1,5 @@
 import { onCreateChannelPost, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
+import { onGetPostInfo } from "@/actions/groups"
 import { CreateChannelPost } from "@/components/global/post-content/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -246,4 +247,13 @@ export const useLikeChannelPost = (postid: string) => {
   })
 
   return { mutate, isPending }
+}
+
+export const useGetPost = (postid: string) => {
+  const { data } = useQuery({
+    queryKey: ["unique-post"],
+    queryFn: () => onGetPostInfo(postid),
+  })
+
+  return { data }
 }

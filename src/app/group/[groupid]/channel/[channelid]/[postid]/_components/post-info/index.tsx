@@ -2,10 +2,11 @@
 
 import { HtmlParser } from "@/components/global/html-parser"
 
-import { NoResult } from "@/components/global/search/no-results"
-import { useGetPost } from "@/hooks/channels"
 import { Interactions } from "../../../_components/post-feed/interactions"
-import { PostAuthor } from "../../../_components/post-feed/post-author"
+import { PostAuthor } from "../../../_components/post-feed/post-auther"
+import NoResult from "@/components/global/search/no-results"
+import { useGetPost } from "@/hooks/channels"
+
 
 type PostInfoProps = {
   id: string
