@@ -7,6 +7,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query"
+import { PostInfo } from "./_components/post-info"
 
 const PostPage = async ({ params }: { params: { postid: string } }) => {
   const client = new QueryClient()
