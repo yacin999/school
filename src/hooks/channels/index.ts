@@ -1,5 +1,6 @@
 import { onCreateChannelPost, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
 import { onGetCommentReplies, onGetPostInfo } from "@/actions/groups"
+import { CreateCommentSchema } from "@/components/global/post-comments/schema"
 import { CreateChannelPost } from "@/components/global/post-content/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -267,4 +268,29 @@ export const useGetReplies = (commentid: string) => {
   })
 
   return { isFetching, data }
+}
+
+export const usePostReply = (commentid: string, postid: string) => {
+  const { register, reset, handleSubmit } = useForm<
+    z.infer<typeof CreateCommentSchema>
+  >({
+    resolver: zodResolver(CreateCommentSchema),
+  })
+
+  const { mutate, variables, isPending } = useMutation({
+    mutationFn: (data: { comment: string; replyid: string }) =>
+      onCreateCommentReply(postid, commentid, data.comment, data.replyid),
+    onMutate: () => reset(),
+    onSuccess: (data) => {
+      return toast(data?.status === 200 ? "Success" : "Error", {
+        description: data?.message,
+      })
+    },
+  })
+
+  const onCreateReply = handleSubmit(async (values) =>
+    mutate({ comment: values.comment, replyid: v4() }),
+  )
+
+  return { onCreateReply, register, variables, isPending }
 }
