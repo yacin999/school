@@ -1,5 +1,5 @@
 import { onCreateChannelPost, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
-import { onGetPostInfo } from "@/actions/groups"
+import { onGetCommentReplies, onGetPostInfo } from "@/actions/groups"
 import { CreateChannelPost } from "@/components/global/post-content/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useMutationState, useQuery, useQueryClient } from "@tanstack/react-query"
