@@ -1,6 +1,7 @@
 import { Loader } from "@/components/global/loader"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
+import { useGetReplies } from "@/hooks/channels"
 
 import { Chat, Heart } from "@/icons"
 import { cn } from "@/lib/utils"
