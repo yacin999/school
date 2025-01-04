@@ -257,3 +257,14 @@ export const useGetPost = (postid: string) => {
 
   return { data }
 }
+
+
+export const useGetReplies = (commentid: string) => {
+  const { isFetching, data } = useQuery({
+    queryKey: ["comment-replies", commentid],
+    queryFn: () => onGetCommentReplies(commentid),
+    enabled: Boolean(commentid),
+  })
+
+  return { isFetching, data }
+}
