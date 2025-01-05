@@ -1,4 +1,5 @@
 import { Loader } from "@/components/global/loader"
+import { PostReply } from "@/components/global/post-reply"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { useGetReplies } from "@/hooks/channels"
