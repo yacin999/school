@@ -294,3 +294,40 @@ export const usePostReply = (commentid: string, postid: string) => {
 
   return { onCreateReply, register, variables, isPending }
 }
+
+export const usePostComment = (postid: string) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<z.infer<typeof CreateCommentSchema>>({
+    resolver: zodResolver(CreateCommentSchema),
+  })
+
+  const client = useQueryClient()
+
+  const { mutate, variables, isPending } = useMutation({
+    mutationFn: (data: { content: string; commentid: string }) =>
+      onCreateNewComment(postid, data.content, data.commentid),
+    onMutate: () => reset(),
+    onSuccess: (data) =>
+      toast(data?.status === 200 ? "Success" : "Error", {
+        description: data?.message,
+      }),
+    onSettled: async () => {
+      return await client.invalidateQueries({
+        queryKey: ["post-comments"],
+      })
+    },
+  })
+
+  const onCreateComment = handleSubmit(async (values) =>
+    mutate({
+      content: values.comment,
+      commentid: v4(),
+    }),
+  )
+
+  return { register, errors, onCreateComment, variables, isPending }
+}
