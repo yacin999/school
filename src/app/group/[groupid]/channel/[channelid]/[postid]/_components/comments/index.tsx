@@ -1,5 +1,7 @@
 "use client"
 
+import { UserComment } from "./user-comment"
+
 
 type PostCommentsProps = {
   postid: string

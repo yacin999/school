@@ -1,5 +1,5 @@
 import { onCreateChannelPost, onCreateCommentReply, onCreateNewComment, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
-import { onGetCommentReplies, onGetPostInfo } from "@/actions/groups"
+import { onGetCommentReplies, onGetPostComments, onGetPostInfo } from "@/actions/groups"
 import { CreateCommentSchema } from "@/components/global/post-comments/schema"
 import { CreateChannelPost } from "@/components/global/post-content/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -259,6 +259,31 @@ export const useGetPost = (postid: string) => {
   return { data }
 }
 
+export const useComments = (postid: string) => {
+  const { data } = useQuery({
+    queryKey: ["post-comments"],
+    queryFn: () => onGetPostComments(postid),
+  })
+
+  return { data }
+}
+
+export const useReply = () => {
+  const [onReply, setOnReply] = useState<{
+    comment?: string
+    reply: boolean
+  }>({ comment: undefined, reply: false })
+
+  const [activeComment, setActiveComment] = useState<string | undefined>(
+    undefined,
+  )
+  const onSetReply = (commentid: string) =>
+    setOnReply((prev) => ({ ...prev, comment: commentid, reply: true }))
+
+  const onSetActiveComment = (id: string) => setActiveComment(id)
+
+  return { onReply, onSetReply, onSetActiveComment, activeComment }
+}
 
 export const useGetReplies = (commentid: string) => {
   const { isFetching, data } = useQuery({
