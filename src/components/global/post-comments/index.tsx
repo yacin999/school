@@ -3,6 +3,7 @@
 import { UserComment } from "@/app/group/[groupid]/channel/[channelid]/[postid]/_components/comments/user-comment"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { usePostComment } from "@/hooks/channels"
 
 import { Send } from "lucide-react"
 

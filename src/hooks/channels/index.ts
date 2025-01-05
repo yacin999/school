@@ -1,4 +1,4 @@
-import { onCreateChannelPost, onCreateNewComment, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
+import { onCreateChannelPost, onCreateCommentReply, onCreateNewComment, onDeleteChannel, onGetChannelInfo, onLikeChannelPost, onUpdateChannelInfo } from "@/actions/channels"
 import { onGetCommentReplies, onGetPostInfo } from "@/actions/groups"
 import { CreateCommentSchema } from "@/components/global/post-comments/schema"
 import { CreateChannelPost } from "@/components/global/post-content/schema"
