@@ -1,5 +1,6 @@
 "use client"
 
+import { useComments, useReply } from "@/hooks/channels"
 import { UserComment } from "./user-comment"
 
 
