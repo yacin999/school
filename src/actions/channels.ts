@@ -274,3 +274,68 @@ export const onLikeChannelPost = async (postid: string, likeid: string) => {
     return { status: 400, message: "Something went wrong" }
   }
 }
+
+
+export const onCreateCommentReply = async (
+  postid: string,
+  commentid: string,
+  comment: string,
+  replyid: string,
+) => {
+  try {
+    const user = await onAuthenticatedUser()
+    const reply = await client.comment.update({
+      where: {
+        id: commentid,
+      },
+      data: {
+        reply: {
+          create: {
+            content: comment,
+            id: replyid,
+            postId: postid,
+            userId: user.id!,
+            replied: true,
+          },
+        },
+      },
+    })
+
+    if (reply) {
+      return { status: 200, message: "Reply posted" }
+    }
+  } catch (error) {
+    console.log("Error from onCreateCommentReply action :", error)
+    return { status: 400, message: "Oops something went wrong" }
+  }
+}
+
+export const onCreateNewComment = async (
+  postid: string,
+  content: string,
+  commentid: string,
+) => {
+  try {
+    const user = await onAuthenticatedUser()
+    const comment = await client.post.update({
+      where: {
+        id: postid,
+      },
+      data: {
+        comments: {
+          create: {
+            id: commentid,
+            content,
+            userId: user.id!,
+          },
+        },
+      },
+    })
+    if (comment) {
+      return { status: 200, message: "Comment successfull" }
+    }
+  } catch (error) {
+    console.log("Error from onCreateNewComment action :", error)
+    return { status: 400, message: "Something went wrong" }
+  }
+}
