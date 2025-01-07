@@ -1,4 +1,3 @@
-import { onGetDomainConfig } from "@/actions/groups"
 import { CustomDomainForm } from "@/components/forms/domain"
 import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"

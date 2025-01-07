@@ -6,6 +6,7 @@ import { z } from "zod"
 import { v4 as uuidv4 } from 'uuid';
 import { onAuthenticatedUser } from "./auth";
 import { revalidatePath } from "next/cache";
+import axios from "axios";
 
 
 
@@ -823,3 +824,38 @@ export const onGetCommentReplies = async (commentid: string) => {
     return { status: 400, message: "Oops something went wrong" }
   }
 }
+
+export const onGetDomainConfig = async (groupId: string) => {
+  try {
+    //check if domain exists
+    const domain = await client.group.findUnique({
+      where: {
+        id: groupId,
+      },
+      select: {
+        domain: true,
+      },
+    })
+
+    if (domain && domain.domain) {
+      //get config status of domain
+      const status = await axios.get(
+        `https://api.vercel.com/v10/domains/${domain.domain}/config?teamId=${process.env.TEAM_ID_VERCEL}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        },
+      )
+
+      return { status: status.data, domain: domain.domain }
+    }
+
+    return { status: 404 }
+  } catch (error) {
+    console.log(error)
+    return { status: 400 }
+  }
+}
+
