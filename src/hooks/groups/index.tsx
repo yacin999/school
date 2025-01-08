@@ -679,3 +679,48 @@ export const useSendMessage = (recieverId: string) => {
 
   return { onSendNewMessage, register }
 }
+
+
+export const useCustomDomain = (groupid: string) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm<z.infer<typeof AddCustomDomainSchema>>({
+    resolver: zodResolver(AddCustomDomainSchema),
+  })
+
+  const client = useQueryClient()
+
+  const { data } = useQuery({
+    queryKey: ["domain-config"],
+    queryFn: () => onGetDomainConfig(groupid),
+  })
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: { domain: string }) =>
+      onAddCustomDomain(groupid, data.domain),
+    onMutate: reset,
+    onSuccess: (data) => {
+      return toast(data.status === 200 ? "Success" : "Error", {
+        description: data.message,
+      })
+    },
+    onSettled: async () => {
+      return await client.invalidateQueries({
+        queryKey: ["domain-config"],
+      })
+    },
+  })
+
+  const onAddDomain = handleSubmit(async (values) => mutate(values))
+
+  return {
+    onAddDomain,
+    isPending,
+    register,
+    errors,
+    data,
+  }
+}
