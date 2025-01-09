@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onGetAllGroupMembers, onGetAllUserMessages, onGetDomainConfig, onGetExploreGroup, onGetGroupInfo, onSearchGroups, onSendMessage, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
+import { onAddCustomDomain, onGetAllGroupMembers, onGetAllUserMessages, onGetDomainConfig, onGetExploreGroup, onGetGroupInfo, onSearchGroups, onSendMessage, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
 import { supabaseClient, validateURLString } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
@@ -20,6 +20,7 @@ import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
 import { onChat } from "@/redux/slices/chats-slices"
 import { SendNewMessageSchema } from "@/components/forms/huddles/schema"
 import { v4 } from "uuid"
+import { AddCustomDomainSchema } from "@/components/forms/domain/schema"
 
 export const useGroupChatOnline = (userid : string) => {
     const dispatch : AppDispatch = useDispatch()
