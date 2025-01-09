@@ -431,6 +431,7 @@ export const useGroupAbout = (
     return () => {
       onSetDescriptions()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onJsonDescription, onDescription])
 
   const onEditTextEditor = (event: Event) => {
