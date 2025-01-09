@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { onGetAllGroupMembers, onGetAllUserMessages, onGetExploreGroup, onGetGroupInfo, onSearchGroups, onSendMessage, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
+import { onGetAllGroupMembers, onGetAllUserMessages, onGetDomainConfig, onGetExploreGroup, onGetGroupInfo, onSearchGroups, onSendMessage, onUpdateGroupGallery, onUpDateGroupSettings } from "@/actions/groups"
 import { supabaseClient, validateURLString } from "@/lib/utils"
 import { onOnline } from "@/redux/slices/online-member-slice"
 import { GroupStateProps, onClearSearch, onSearch } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { JSONContent } from "novel"
